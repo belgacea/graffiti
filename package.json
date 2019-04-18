@@ -12,6 +12,7 @@
     "test-ts-debug": "cross-env NODE_ENV=test mocha debug -r ts-node/register test/**/*.ts --recursive",
     "memo1": "mocha --grep Util_Parallel",
     "memo2": "npm test -- --grep Util_Parallel",
+    "memo3": "yarn test-ts -- --grep Indexer_matchPerson_1",
     "pack": "build --dir",
     "dist32": "build --ia32 --config electron-builder.config.uat.json",
     "dist64": "build --x64 --config electron-builder.config.uat.json",

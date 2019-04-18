@@ -1,12 +1,13 @@
 const assert = require('assert');
-const Indexer = require('../../src/background/Indexer')
+import Indexer from '../../src/background/Indexer'
+import Person from '../../src/types/Person';
 
-const person2 = { _id: 'S', name: 'Clark Kent' };
-const person3 = { _id: 'S', name: 'Clark Kent Junior' };
+const person2: any = { _id: 'S', name: 'Clark Kent', autoMatch: true };
+const person3: any = { _id: 'S', name: 'Clark Kent Junior', autoMatch: true };
 
 describe('Indexer_matchPerson_1', function() {
     it('should match everyone (2 words name)', function() {
-        const _matchable = [
+        const _matchable: any = [
             { path: 'a:\\superman\\a new adventure by clark kent.mpg' },
             { path: 'a:\\superman\\a.new.adventure.by.clark.kent.mpg' },
             { path: 'a:\\superman\\a_new_adventure_by_clark_kent.mpg' },
@@ -31,7 +32,7 @@ describe('Indexer_matchPerson_1', function() {
     });
 
     it('should match everyone (3 words name)', function() {
-        const _matchable = [
+        const _matchable: any = [
             { path: 'a:\\superman\\a new adventure by clark kent junior.mpg' },
             { path: 'a:\\superman\\a new adventure by clark kent junior, john kent senior.mpg' },
             { path: 'a:\\superman\\a.new.adventure.by.clark.kent.junior.mpg' },
@@ -49,7 +50,7 @@ describe('Indexer_matchPerson_1', function() {
 
 describe('Indexer_matchPerson_2', function() {
     it('should not match anyone', function() {
-        const _nonMatchable = [
+        const _nonMatchable: any = [
             { path: 'a:\\superman\\a new adventure by keNt .mpg' },
             { path: 'a:\\superman\\a new adventure by keNt cLaRk.mpg' },
             { path: 'a:\\superman\\a new adventure by cLaRk .mpg' },
@@ -58,5 +59,18 @@ describe('Indexer_matchPerson_2', function() {
         const shouldBeEmptyArray = Indexer.matchPerson(_nonMatchable, person2);
         if (shouldBeEmptyArray.length > 0) console.log(shouldBeEmptyArray);
         assert.equal(shouldBeEmptyArray.length, 0);
+    })
+})
+
+describe('Indexer_matchPerson_3', function() {
+    it('should match only one (restrictive match)', function() {
+        const _firstMatchable: any = [
+            { path: 'a:\\superman\\a new adventure by clark kent.mpg' },
+            { path: 'a:\\superman\\a new adventure by clark kentucky.mpg' },
+        ];
+        
+        const shouldContainOneArray = Indexer.matchPerson(_firstMatchable, person2);
+        if (shouldContainOneArray.length !== 1) console.log(person2, '-', shouldContainOneArray);
+        assert.equal(shouldContainOneArray.length, 1);
     })
 })
