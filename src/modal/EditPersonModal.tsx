@@ -65,6 +65,7 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
         const db = new Persistence();
         const settings = await db.getSettings();
         const { person } = this.props;
+        const oldAutoMath = person.autoMatch;
         let { name, photo, shouldMatchVideos, tags } = this.state;
 
         if (photo && photo !== person.photo) {
@@ -73,10 +74,6 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
             fs.copySync(photo, newPhoto);
             photo = newPhoto;
             console.warn('TODO: overwrite if exist ?')
-        }
-
-        if (!person.autoMatch && shouldMatchVideos) {
-            ipcRenderer.send(IpcEvents.Background.MatchPerson, person);
         }
 
         if (person.name !== name) Analytics.events.PEOPLE_EDIT(person.name + ' > ' + name);
@@ -92,6 +89,9 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
             ToastHelper.success('Changes saved');
             console.warn("TODO: this.props.editPerson ? utiliser loadPeople m'oblige à updater currentPeople aussi")
         });
+        if (!oldAutoMath && shouldMatchVideos) {
+            ipcRenderer.send(IpcEvents.Background.MatchPerson, person);
+        }
     }
 
     onDrop = (acceptedFiles, rejectedFiles) => {
