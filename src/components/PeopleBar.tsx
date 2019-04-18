@@ -51,6 +51,7 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
     }
 
     filterPeople(people: Person[], search: string): Person[] {
+        search = search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLowerCase()
         if (!people || people.length === 0) {
             return [];
         }
@@ -58,7 +59,7 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
         if (search) {
             people = _.filter(people, person => {
                 const tags = (person.tags || []).toString();
-                return person.name.concat(tags).toLowerCase().indexOf(search.toLowerCase()) >= 0;
+                return person.name.concat(tags).toLowerCase().indexOf(search) >= 0;
             });
         }
 
