@@ -1,3 +1,22 @@
 #search-results #video-grid {
     height: calc(100vh - 50px - 20px - 95px);   
 }
+
+#search-results .filters {
+    height: 200px;
+    padding-left: 5px;
+}
+
+.filters .tag {
+    margin-right: 3px;
+    cursor: pointer;
+
+}
+
+.filters .tag {
+    background-color: darksalmon;
+}
+
+.filters .tag.selected {
+    background-color: darkred;
+}

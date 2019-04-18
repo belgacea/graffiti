@@ -11,7 +11,7 @@ export function myReducer(state:IState = {}, action:IAction):IState {
     switch(action.type) {
         case ReduxActions.SEARCH:
         {
-            let searchResults;
+            let searchResults: Search;
             let searchHistory = state.searchHistory;
 
             if (action.search) {
@@ -19,6 +19,7 @@ export function myReducer(state:IState = {}, action:IAction):IState {
                 searchResults.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
                 const matchedPeople = state.people ? state.people.filter(p => p.match(searchResults.request)) : [];
                 searchResults.videos = state.allVideos && searchResults.request ? state.allVideos.filter((v) => v.match(searchResults.request, matchedPeople)) : state.allVideos;
+                searchResults.allVideos = [...searchResults.videos]
                 searchResults.people = new PersonStore(state.people).getPeopleByVideos(searchResults.videos);
                 searchHistory = [searchResults, ...state.searchHistory || []]
                 Router.to.SearchResults(searchResults.id);
@@ -31,6 +32,13 @@ export function myReducer(state:IState = {}, action:IAction):IState {
                 searchResults: searchResults,
                 searchHistory: searchHistory
             };
+        }
+        case ReduxActions.SEARCH_FILTER_CHANGED:
+        {
+            return {
+                ...state,
+                searchResults: _.cloneDeep(action.searchResults.applyFilters())
+            }   
         }
         case ReduxActions.LOAD_VIDEOS_LIST_SUCCESS:
             const store = new VideoStore(action.videos);
@@ -144,8 +152,7 @@ export function myReducer(state:IState = {}, action:IAction):IState {
         {
             console.log('ReduxActions.INJECT_VIDEOS', action.videos.length)
             console.log(action.videos)
-            const allVideos = [...action.videos, ...state.allVideos]
-            const ordered = new VideoStore(allVideos).orderByDefault();
+            const ordered = new VideoStore([...action.videos, ...state.allVideos]).orderByDefault();
             return {
                 ...state,
                 videos: ordered,
@@ -155,7 +162,8 @@ export function myReducer(state:IState = {}, action:IAction):IState {
         case ReduxActions.ROUTE_CHANGED:
             return {
                 ...state,
-                currentVideo: Router.is.Home() ? null: state.currentVideo
+                currentVideo: Router.is.Home() ? null: state.currentVideo,
+                videos: Router.is.Home() ? state.allVideos : state.videos
             }
         case ReduxActions.SAVE_RULE:
         {

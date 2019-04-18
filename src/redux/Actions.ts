@@ -7,6 +7,7 @@ import Persistence from '../core/Persistence'
 import Video from '../types/Video'
 import Person from '../types/Person'
 import Rule from '../types/Rule';
+import Search from '../types/Search';
 
 export function search(search) {
     Analytics.events.VIDEO_SEARCH(search);
@@ -210,5 +211,12 @@ export function loadRules() {
                     rules: _.orderBy(rules, ['createdAt'], ['desc'])
                 })
             })
+    }
+}
+
+export function searchFilterChanged(searchResults: Search) {
+    return {
+        type: ReduxActions.SEARCH_FILTER_CHANGED,
+        searchResults
     }
 }

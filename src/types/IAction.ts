@@ -1,6 +1,7 @@
 import Video from './Video';
 import Person from './Person';
 import Rule from './Rule';
+import Search from './Search';
 
 export default interface IAction {
     type:string
@@ -14,4 +15,5 @@ export default interface IAction {
     newPeople?:Person[]
     rule?: Rule
     rules?: Rule[]
+    searchResults?: Search
 }

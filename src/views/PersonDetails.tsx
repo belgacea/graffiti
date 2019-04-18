@@ -8,6 +8,7 @@ import PersonCircle from '../components/PersonCircle'
 import VideoGrid from '../components/VideoGrid'
 import Person from '../types/Person'
 import Video from '../types/Video'
+import Filters from "../components/Filters";
 
 interface IPersonDetailsProps extends IPersonDetailsReduxProps {
     personId: string
@@ -52,6 +53,7 @@ class PersonDetails extends React.Component<IPersonDetailsProps, IPersonDetailsS
                     </div>
                 </div>
                 <div className='videos'>
+                    {/* <Filters currentVideos={videos} /> */}
                     <VideoGrid videos={videos} />
                 </div>
             </div>
