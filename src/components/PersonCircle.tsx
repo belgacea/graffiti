@@ -19,6 +19,7 @@ interface IPersonCircleProps extends IPersonCircleReduxActions {
     hideTooltip?:boolean
     onDeleteClicked?:(person:Person) => void
     size?:string
+    className?: string
 }
 
 @ContextMenuTarget
@@ -28,8 +29,13 @@ class PersonCircle extends React.Component<IPersonCircleProps, undefined> {
         if (this.props.disableClick) {
             return;
         }
-        Router.to.PersonDetails(this.props.person._id);
-        this.props.load(this.props.person._id)
+        if (this.props.onClick) {
+            this.props.onClick(this.props.person)
+        }
+        else {
+            Router.to.PersonDetails(this.props.person._id);
+            this.props.load(this.props.person._id)
+        }
     }
 
     handleEdit = () => {
@@ -53,12 +59,13 @@ class PersonCircle extends React.Component<IPersonCircleProps, undefined> {
 
 
     render() {
-        let { person, hideTooltip, size } = this.props;
+        let { person, hideTooltip, size, className } = this.props;
         size = size || '';
+        className = className || '';
         if (person) {
             const tooltip = hideTooltip ? '' : person.name;
             return (
-                <div className={'person-circle ' + size} onClick={ this.onClick.bind(this) }>
+                <div className={'person-circle ' + size + ' ' + className} onClick={ this.onClick.bind(this) }>
                     <Tooltip content={ tooltip } position={Position.RIGHT}>
                     {
                         person.photo ?

@@ -20,3 +20,7 @@
 .filters .tag.selected {
     background-color: darkred;
 }
+
+.filters .person-circle.not-selected {
+    opacity: 0.6;
+}

@@ -10,10 +10,12 @@ export default class Search {
     public videos: Video[];
     public people: Person[];
     public selectedTags: string[]
-    
+    public selectedPeople: Person[]
+
     public constructor() {
-            this.id = uuidv1();
-            this.selectedTags = []
+        this.id = uuidv1();
+        this.selectedTags = []
+        this.selectedPeople = [];
     }
 
     public toString() {
@@ -28,18 +30,23 @@ export default class Search {
         else {
             this.selectedTags.push(tag)
         }
+    }
 
-        console.log(this.selectedTags)
+    public switchPerson(person: Person) {
+        const index = _.findIndex(this.selectedPeople, { '_id': person._id })
+        if (index >= 0) {
+            this.selectedPeople.splice(index, 1)
+        }
+        else {
+            this.selectedPeople.push(person)
+        }
     }
 
     public applyFilters() {
-        if (this.selectedTags.length > 0) {
-            this.videos = _.filter(this.allVideos, (video:Video) => _.intersection(video.tags, this.selectedTags).length >= this.selectedTags.length)
-        }
-        else {
-            this.videos = this.allVideos
-        }
-        
+        this.videos = _.filter(this.allVideos, (video: Video) => {
+            return _.intersection(video.tags, this.selectedTags).length >= this.selectedTags.length
+                && _.intersection(video.people, this.selectedPeople.map(p => p._id)).length >= this.selectedPeople.length
+        })
         return this;
     }
 }

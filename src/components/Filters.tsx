@@ -44,6 +44,11 @@ class Filters extends React.Component<IFiltersProps, IFiltersState> {
         this.props.onChanged();
     }
 
+    handlePersonClicked = (person:Person) => {
+        this.props.search.switchPerson(person);
+        this.props.onChanged();
+    }
+
     renderFilterTags = () => {
         const tags = _.uniq(_.compact(_.flattenDeep(this.props.currentVideos.map(v => v.tags)))) as string[];
         const tagElements = tags.map(tag => {
@@ -60,12 +65,15 @@ class Filters extends React.Component<IFiltersProps, IFiltersState> {
     }
 
     renderFilterPeople = () => {
-        const people = new PersonStore(this.props.people).getPeopleByVideos(this.props.currentVideos);
-        console.log('people:', people)
-        const peopleElements = people.map((person) => <PersonCircle key={person._id} person={person} />);
+        const { search, currentVideos } = this.props;
+        const people = new PersonStore(this.props.people).getPeopleByVideos(currentVideos);
+        const peopleElements = people.map((person) => {
+            let className = (search.selectedPeople.length > 0 && _.findIndex(search.selectedPeople, { '_id': person._id }) >= 0) ? '' : 'not-selected';
+            return <PersonCircle className={className} key={person._id} person={person} onClick={ () => this.handlePersonClicked(person) } />
+        });
 
         return (
-            <div>
+            <div className='people'>
                 {peopleElements}
             </div>
         )
