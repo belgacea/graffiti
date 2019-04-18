@@ -12,6 +12,7 @@ interface ISuggestiveInputProps {
     renderSuggestion?: (suggestion:any) => (JSX.Element | string)
     renderTag?: (suggestion:any) => (JSX.Element | string)
     disableNewValues?: boolean
+    initText?: string
 }
 
 interface ISuggestiveInputState {
@@ -23,13 +24,17 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
 
     private filteredSuggestions: any[];
     private textInput:HTMLInputElement;
-    constructor() {
-        super();
+    constructor(props: ISuggestiveInputProps) {
+        super(props);
         this.state = { 
             hasFocus: false,
-            text: ''
+            text: props.initText || ''
         };
         this.filteredSuggestions = [];
+    }
+
+    componentWillReceiveProps(nextProps: ISuggestiveInputProps) {
+        this.setState({ text: nextProps.initText || '' });
     }
 
     focus = () => {

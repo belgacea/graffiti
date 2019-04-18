@@ -281,6 +281,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
 
         return (
             <SuggestiveInput
+                initText=''
                 values={tags}
                 onChange={handleChange}
                 onValueCreated={handleValueCreated}
