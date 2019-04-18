@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Clean up
     - Rename
     - History
+    - Rules
 
 - Improvements
     - Search
@@ -26,3 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Search
 - People
 - Thumbnail and screenshot generation
+
+[Unreleased]: https://github.com/jamelait/graffiti/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/jamelait/graffiti/compare/v0.0.1...master
