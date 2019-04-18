@@ -5,12 +5,13 @@
 #search-results .filters {
     height: 200px;
     padding-left: 5px;
+    overflow-y: scroll;
 }
 
 .filters .tag {
     margin-right: 3px;
     cursor: pointer;
-
+    margin-bottom: 3px;
 }
 
 .filters .tag {
