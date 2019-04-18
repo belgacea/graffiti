@@ -101,9 +101,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     renderHistory() {
         const elements = (this.props.searchHistory || []).map(item => <MenuItem key={item.id} text={item.toString()} onClick={() => this.props.doSearch(item.request)} />)
         return (
-            <div className="pt-navbar-group pt-align-left">
+            <div className="pt-navbar-group pt-align-right">
                 <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_LEFT}>
-                    <button className="pt-button pt-minimal pt-icon-menu"></button>
+                    <button className="pt-button pt-minimal pt-icon-history"></button>
                 </Popover>
             </div>
         );
@@ -113,7 +113,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         const elements = (this.props.bookmarks || []).map(video => <MenuItem key={video._id} text={video.getName()} onClick={() => Router.to.VideoDetails(video._id)} />)
         return (
             <div className="pt-navbar-group pt-align-left">
-                <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_LEFT}>
+                <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_RIGHT}>
                     <button className="pt-button pt-minimal pt-icon-bookmark"></button>
                 </Popover>
             </div>
@@ -127,8 +127,6 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     <button className="pt-button pt-minimal pt-icon-chevron-left" onClick={this.back}></button>
                     {/* <Icon className='nav-button' iconName='pt-icon-chevron-left' onClick={this.back} /> */}
                     {/* <Icon className='nav-button home' iconName='pt-icon-home' onClick={this.home} /> */}
-                    { this.renderHistory() }
-                    { this.renderBookmarks() }
                     <button className="pt-button pt-minimal pt-icon-home" onClick={this.home}>Home</button>
                     <input className="pt-input" type="text" placeholder="Search" dir="auto" id='search-input'
                         onChange={this.handleChange}
@@ -136,9 +134,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                         onKeyUp={this.handleKeyUp}
                         value={this.state.search} />
                     <button className="pt-button pt-minimal pt-icon-search" onClick={this.onSearch}></button>
+                    { this.renderHistory() }
                     <button className="pt-button pt-minimal pt-icon-cross" onClick={this.onClear}></button>
                 </div>
                 <div className="pt-navbar-group pt-align-right">
+                { this.renderBookmarks() }
                     <Popover content={this.renderMenu()} position={Position.BOTTOM_RIGHT}>
                         <button className="pt-button pt-minimal pt-icon-menu"></button>
                     </Popover>
