@@ -9,7 +9,7 @@ Graffiti is a desktop application to manage your entire video library.
 
 ## Installing
 
-- Download and install the [latest](https://github.com/jamelait/graffiti/releases) Graffiti from the releases.
+- Download and install the [latest](https://github.com/jamelait/graffiti/releases/latest) Graffiti from the releases.
 
 
 ## Supported platforms
