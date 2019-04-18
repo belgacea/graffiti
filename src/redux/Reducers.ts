@@ -18,15 +18,13 @@ export function myReducer(state:IState = {}, action:IAction):IState {
             search.people = new PersonStore(state.people).getPeopleByVideos(search.videos);
             
             if (search.request) {
-                Router.to.SearchResults();
+                Router.to.SearchResults(search.id);
             }
             else {
                 Router.to.Home();
             }
             return {
                 ...state,
-                search: search.request,
-                videos: search.videos,
                 searchResults: search
             };
         }

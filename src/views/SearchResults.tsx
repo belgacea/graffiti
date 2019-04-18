@@ -12,7 +12,6 @@ import Person from '../types/Person';
 
 interface ISearchResultsProps {
     searchResults?: Search,
-    search?: string
 }
 
 interface ISearchResultsState {
@@ -30,7 +29,7 @@ class SearchResults extends React.Component<ISearchResultsProps, ISearchResultsS
     }
 
     render() {
-        const {search, searchResults} = this.props;
+        const {searchResults} = this.props;
         const videos = searchResults ? searchResults.videos : [];
         const peopleElements = searchResults && searchResults.people ? searchResults.people.map(this.renderPerson) : null;
 
@@ -39,7 +38,7 @@ class SearchResults extends React.Component<ISearchResultsProps, ISearchResultsS
                 <div className='people'>
                         {peopleElements}
                     </div>
-                <h3>Search: {search}</h3>
+                <h3>Search: {searchResults.request}</h3>
                 <div id="video-list">
                     <VideoGrid videos={ videos } />
                 </div>
@@ -50,7 +49,6 @@ class SearchResults extends React.Component<ISearchResultsProps, ISearchResultsS
 
 const mapStateToProps = state => {
     return {
-        search: state.myReducer.search,
         searchResults: state.myReducer.searchResults
     }
 }

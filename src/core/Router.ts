@@ -16,7 +16,9 @@ export default class Router {
         }
 
         public static parse(route:string):{name:string, options:any} {
-                return this.Routes.lookup(route.replace('#/', ''));
+                route = route.replace('#/', '');
+                route = route.substr(0, route.indexOf('/'));
+                return this.Routes.lookup(route);
         }
 
         public static to = {
@@ -32,8 +34,8 @@ export default class Router {
                 Home: () => {
                         window.location.hash = '#/';
                 },
-                SearchResults: () => {
-                        window.location.hash = '#/search-results';
+                SearchResults: (searchId) => {
+                        window.location.hash = '#/search-results/' + searchId;
                 },
                 Duplicates: () => {
                         window.location.hash = '#/duplicates';
