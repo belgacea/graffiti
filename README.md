@@ -11,7 +11,6 @@ Graffiti is a desktop application to manage your entire video library.
 
 - Download and install the [latest](https://github.com/jamelait/graffiti/releases/latest) Graffiti from the releases.
 
-
 ## Supported platforms
 - Windows (64/32bit)
 - macOS and Linux are not yet supported.
@@ -36,6 +35,11 @@ The following formats are recongized: .avi, .mov, .wmv, .mp4, .m4v, .mkv, .3gp, 
 <kbd>CTRL</kbd>+<kbd>E</kbd> Open the containing folder.
 
 <kbd>F2</kbd> Rename video.
+
+## Advanced search
+Start the search string with " (double quotes) to keep the string as is, otherwise it will be cleaned up (removal of special characters...).
+
+Type -- (double dash) right before the word (no spaces) to exclude that word from the results.
 
 ## Development
 

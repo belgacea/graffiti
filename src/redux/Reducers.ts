@@ -16,7 +16,12 @@ export function myReducer(state:IState = {}, action:IAction):IState {
 
             if (action.search) {
                 searchResults = new Search();
-                searchResults.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
+                if (action.search.startsWith('"')) {
+                    searchResults.request = action.search.substr(1, action.search.length - 1);
+                }
+                else {
+                    searchResults.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
+                }
                 const matchedPeople = state.people ? state.people.filter(p => p.match(searchResults.request)) : [];
                 searchResults.videos = state.allVideos && searchResults.request ? state.allVideos.filter((v) => v.match(searchResults.request, matchedPeople)) : state.allVideos;
                 searchResults.allVideos = [...searchResults.videos]

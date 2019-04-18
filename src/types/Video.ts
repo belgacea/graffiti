@@ -93,7 +93,13 @@ export default class Video {
 
                 for (let i = 0; i < words.length; i++) {
                         let w = words[i].trim();
-                        if (!data.includes(w)) {
+                        if (w.startsWith("--")) { // remove a result if contains word
+                                w = w.substr(2, w.length - 2);
+                                if (data.includes(w)) {
+                                        return false;
+                                }
+                        }
+                        else if (!data.includes(w)) {
                                 return false;
                         }
                 }
