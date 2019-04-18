@@ -51,8 +51,13 @@ export default class Video {
                 this.path = newPath;
         }
 
+        public getScreen(index: number): string {
+                return this.screenshots[index] ? this.getScreenshotFullpath(this.screenshots[index].path) : undefined;
+        }
+
         public getMainScreen(): string {
-                return this.screenshots[Video.INDEX_MAIN_SCREEN] ? this.getScreenshotFullpath(this.screenshots[Video.INDEX_MAIN_SCREEN].path) : undefined;
+                // TODO remove function and use getScreen(index: number = Video.INDEX_MAIN_SCREEN)
+                return this.getScreen(Video.INDEX_MAIN_SCREEN);
         }
 
         public getScreenshotFullpath(screenPath: string) {

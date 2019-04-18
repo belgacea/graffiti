@@ -5,6 +5,7 @@ import Router from '../core/Router'
 import Video from '../types/Video';
 import { ipcRenderer } from 'electron';
 import { IpcEvents } from '../common/Constants.js'
+import ToastHelper from '../core/ToastHelper'
 
 interface IVideoCardProps {
     video: Video
@@ -13,9 +14,13 @@ interface IVideoCardProps {
 
 interface IVideoCardState {
     hasError:boolean
+    currentScreenshotIndex?: number
 }
 
 export default class VideoCard extends React.Component<IVideoCardProps, IVideoCardState> {
+
+    private static dynamicThumbnailEnabled = true;
+    private timer;
 
     constructor() {
         super();
@@ -40,10 +45,45 @@ export default class VideoCard extends React.Component<IVideoCardProps, IVideoCa
         this.setState({ hasError: true });
     }
 
+    handleMouseEnter = () => {
+        if (!VideoCard.dynamicThumbnailEnabled)
+            return;
+
+        if (this.timer)
+            return;
+
+        this.timer = setInterval(() => {
+            const {video} = this.props;
+            let currentScreenshotIndex = this.state.currentScreenshotIndex === undefined ? -1 : this.state.currentScreenshotIndex;
+            if (currentScreenshotIndex === video.screenshots.length -1) {
+                currentScreenshotIndex = 0;
+            }
+            else {
+                currentScreenshotIndex++;
+            }
+            
+            this.setState({ currentScreenshotIndex });
+        }, 400);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
+    handleMouseLeave = () => {
+        if (!VideoCard.dynamicThumbnailEnabled)
+            return;
+
+            clearInterval(this.timer);
+            this.timer = undefined;
+            this.setState({ currentScreenshotIndex: undefined });
+    }
+
     render() {
-        const video = this.props.video;
-        const hasError = this.state.hasError;
-        const mainScreen = video.getMainScreen();
+        const {video} = this.props;
+        const {hasError, currentScreenshotIndex} = this.state;
+        const screen = currentScreenshotIndex === undefined ? video.getMainScreen() : video.getScreen(currentScreenshotIndex);
+        console.log(screen)
         return (
             // <Popover
             //     interactionKind={PopoverInteractionKind.HOVER}
@@ -53,10 +93,12 @@ export default class VideoCard extends React.Component<IVideoCardProps, IVideoCa
             // >
             <Tooltip content={ video.getName() } position={Position.TOP_LEFT}>
                 <div className="pt-card pt-elevation-0 pt-interactive video-card" 
+                    onMouseEnter={this.handleMouseEnter}
+                    onMouseLeave={this.handleMouseLeave}
                      onClick={ this.handleClick }>
                     {
-                        mainScreen && !hasError ?
-                        <img src={ mainScreen }
+                        screen && !hasError ?
+                        <img src={ screen }
                             onError={ this.handleError }  />
                         :
                         <Icon iconName='pt-icon-media' className='no-image' />
