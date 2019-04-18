@@ -368,6 +368,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
             return (
                 <div id="video-details">
                     <div className="navigation">
+                        <Icon className={'fav' + favClass} iconName='pt-icon-bookmark' onClick={ this.markFavorite }/>
                         <Button className='previous pt-small' iconName='arrow-left' disabled={!previousVideoId} onClick={this.previous}>Previous</Button>
                         <Tooltip content={video.path} position={Position.BOTTOM_LEFT} className='truncate'>
                             <span className='title' onClick={this.handleOpenContainingFolder}>{video.getName(true)}</span>
@@ -378,7 +379,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
                     {videoPath ? this.renderFileInfo() : null}
                     <div className='buttons'>
                         <Icon className='play video-action' iconName='pt-icon-play' onClick={this.play} />
-                        {/* <Icon className={'fav video-action' + favClass} iconName='pt-icon-heart' onClick={ this.markFavorite }/> */}
+                        {/* <Icon className={'fav video-action' + favClass} iconName='pt-icon-bookmark' onClick={ this.markFavorite }/> */}
                         <Popover
                             interactionKind={PopoverInteractionKind.CLICK}
                             popoverClassName="pt-popover-content-sizing"
