@@ -2,6 +2,7 @@ import * as React from "react";
 import * as _ from 'lodash'
 import { Portal, MenuItem, Classes } from '@blueprintjs/core'
 import { KeyCodes } from '../common/Constants.js'
+import * as ReactList from 'react-list';
 
 interface ISuggestiveInputProps {
     values: any[]
@@ -32,7 +33,6 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
     }
 
     focus = () => {
-        console.log('focusing', this.textInput)
         this.textInput.click();
     }
 
@@ -71,7 +71,7 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
                 });
                 return JSON.stringify(str).toLowerCase().indexOf(text.toLowerCase()) >= 0
             });
-            console.warn('TODO: filtering can be improved, add prop filterSuggestions');
+            console.warn('TODO: filtering can be improved, add prop filterSuggestions (et pour les acteurs ne filtrer que sur le nom)');
         }
 
         this.filteredSuggestions = filtered;
@@ -122,6 +122,7 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
 
     render() {
         const values = this.props.values || [];
+        const suggestions = this.filterSuggestions();
         const suggestionElements = this.filterSuggestions().map(this.renderSuggestionItem);
         const tagElements = values.map(this.renderTagItem);
         return (
@@ -137,7 +138,13 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
 
                 { this.state.hasFocus && suggestionElements.length > 0 &&
                     <div className="suggestiveinput-suggestion-container pt-popover">
-                        <ul className="pt-menu">{ suggestionElements }</ul>
+                        <ul className="pt-menu">
+                            <ReactList
+                                itemRenderer={index => { return this.renderSuggestionItem(suggestions[index], index) }}
+                                length={suggestions.length}
+                                type='uniform'
+                            />
+                        </ul>
                     </div>
                 }
             </div>
@@ -162,6 +169,37 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
                 { renderedTag }
                 <button type="button" className="pt-tag-remove" onClick={ this.handleRemoveTag }></button>
             </span>
+        );
+    }
+
+    tmpFakeSuggestions() {
+        return (
+            <ul className="pt-menu">
+                <li className="" onMouseDown={() => console.log('item mouse down')}>
+                    <a className="pt-menu-item pt-popover-dismiss">
+                        <span className="pt-menu-item-label">1994</span>
+                        1. The Shawshank Redemption
+                    </a>
+                </li>
+                <li className="">
+                    <a className="pt-menu-item pt-popover-dismiss">
+                        <span className="pt-menu-item-label">1994</span>
+                        1. The Shawshank Redemption
+                    </a>
+                </li>
+                <li className="">
+                    <a className="pt-menu-item pt-popover-dismiss pt-active ">
+                        <span className="pt-menu-item-label">1994</span>
+                        1. The Shawshank Redemption
+                    </a>
+                </li>
+                <li className="">
+                    <a className="pt-menu-item pt-popover-dismiss pt-active pt-intent-primary">
+                        <span className="pt-menu-item-label">1994</span>
+                        1. The Shawshank Redemption
+                    </a>
+                </li>
+            </ul>
         );
     }
 }
