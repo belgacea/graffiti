@@ -20,6 +20,7 @@ interface IPersonCircleProps extends IPersonCircleReduxActions {
     onDeleteClicked?:(person:Person) => void
     size?:string
     className?: string
+    menuNavigateToDetailsEnabled?: boolean
 }
 
 @ContextMenuTarget
@@ -33,9 +34,13 @@ class PersonCircle extends React.Component<IPersonCircleProps, undefined> {
             this.props.onClick(this.props.person)
         }
         else {
-            Router.to.PersonDetails(this.props.person._id);
-            this.props.load(this.props.person._id)
+            this.navigate();
         }
+    }
+
+    navigate = () =>  {
+        Router.to.PersonDetails(this.props.person._id);
+        this.props.load(this.props.person._id)
     }
 
     handleEdit = () => {
@@ -49,8 +54,10 @@ class PersonCircle extends React.Component<IPersonCircleProps, undefined> {
     renderContextMenu() {
         // return a single element, or nothing to use default browser behavior
         const deleteMenuItem = this.props.onDeleteClicked ? <MenuItem onClick={this.handleDelete} text="Delete" /> : null;
+        const navigateMenuItem = this.props.menuNavigateToDetailsEnabled ? <MenuItem onClick={this.navigate} text="Details" /> : null;
         return (
             <Menu>
+                { navigateMenuItem }
                 <MenuItem onClick={this.handleEdit} text="Edit" />
                 { deleteMenuItem }
             </Menu>

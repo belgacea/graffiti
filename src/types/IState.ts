@@ -10,7 +10,7 @@ export default interface IState {
     allVideos?: Video[]
     people?:Person[]
     person?:Person
-    otherPeople?:Person[]
+    // otherPeople?:Person[]
     currentVideo?:Video
     currentPeople?:Person[]
     nextVideoId?:string

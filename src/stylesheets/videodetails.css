@@ -95,12 +95,6 @@
     cursor: pointer;
 }
 
-#search-results .people {
-    display: inline-flex;
-    overflow-x: auto;
-    width: 100%;
-}
-
 #video-details .deleted-overlay {
     width: 100%;
     height: 100%;

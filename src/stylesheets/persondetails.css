@@ -7,7 +7,7 @@
     position: fixed;
 }
 
-#person-details .person-circle {
+#person-details .person-bar-photo {
     width: 140px;
     height: 140px;
     -webkit-border-radius: 70px;

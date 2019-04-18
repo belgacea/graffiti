@@ -51,13 +51,16 @@ export function myReducer(state:IState = {}, action:IAction):IState {
                 bookmarks
             }
         case ReduxActions.LOAD_PERSON_DETAILS_SUCCES:
-            const videos = new VideoStore(state.allVideos).getAllByPersonId(action.personId)
+            const searchResults = new Search();
+            const videos = new VideoStore(state.allVideos).getAllByPersonId(action.personId);
+            searchResults.allVideos = videos;
+            searchResults.videos = videos;
             const personStore = new PersonStore(state.people);
+            searchResults.people = personStore.getPeopleByVideos(videos, [action.personId])
             return {
                 ...state,
-                videos,
+                searchResults,
                 person: personStore.getById(action.personId),
-                otherPeople: personStore.getPeopleByVideos(videos, [action.personId])
             }
         case ReduxActions.LOAD_PEOPLE_SUCCESS:
         {

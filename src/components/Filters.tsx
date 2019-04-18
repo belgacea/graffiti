@@ -20,6 +20,7 @@ interface IFiltersProps extends IFiltersReduxProps, IFiltersReduxActions {
     currentVideos: Video[]
     search: Search
     onChanged: () => void
+    excludedPeople?: Person[]
 }
 
 interface IFiltersState {
@@ -65,11 +66,11 @@ class Filters extends React.Component<IFiltersProps, IFiltersState> {
     }
 
     renderFilterPeople = () => {
-        const { search, currentVideos } = this.props;
-        const people = new PersonStore(this.props.people).getPeopleByVideos(currentVideos);
+        const { search, currentVideos, excludedPeople } = this.props;
+        const people = new PersonStore(this.props.people).getPeopleByVideos(currentVideos, (excludedPeople ? excludedPeople.map(p => p._id) : undefined));
         const peopleElements = people.map((person) => {
             let className = (search.selectedPeople.length > 0 && _.findIndex(search.selectedPeople, { '_id': person._id }) >= 0) ? '' : 'not-selected';
-            return <PersonCircle className={className} key={person._id} person={person} onClick={ () => this.handlePersonClicked(person) } />
+            return <PersonCircle className={className} key={person._id} person={person} onClick={ () => this.handlePersonClicked(person) } size='small' menuNavigateToDetailsEnabled={true} />
         });
 
         return (
