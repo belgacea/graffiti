@@ -10,6 +10,25 @@
     float: left;
 }
 
+#people-bar .alphabet {
+    display: none;
+    position: fixed;
+    color: white;
+    margin-top: 100px;
+}
+
+#people-bar.expanded .alphabet {
+    display: block;
+}
+
+#people-bar.expanded .alphabet .letter {
+    padding: 2px;
+}
+
+#people-bar.expanded .alphabet .letter:hover {
+    font-weight: bolder;
+}
+
 #people-bar.expanded {
     width: 340px;
 }
@@ -66,8 +85,8 @@
 }
 
 #people-bar .people {
-    height: calc(100vh - 50px - 99px - 20px); /* viewport - header - margin-top - action.padding-top - footer */
-    margin-top: 99px;
+    height: calc(100vh - 50px - 118px - 20px); /* viewport - header - margin-top - action.padding-top - footer */
+    margin-top: 118px;
     overflow-y: auto;
 }
 

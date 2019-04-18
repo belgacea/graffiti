@@ -34,6 +34,8 @@ interface IPeopleBarState {
 }
 
 class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
+    private peopleElements: any;
+
     constructor(props: IPeopleBarProps) {
         super(props);
         this.state = {
@@ -112,10 +114,19 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
         )
     }
 
+    onLetterClicked = (letter:string) => {
+        const index = _.findIndex(this.state.people, p => p.name.substring(0,1).toLocaleUpperCase() === letter);
+        this.peopleElements.scrollTo(index);
+    }
+
     render() {
         const { people, isExpanded } = this.state;
         const expandCollapseIconName = isExpanded ? 'pt-icon-double-chevron-left' : 'pt-icon-double-chevron-right';
         const confirmButtonText = this.state.deleteConfirmationData ? 'Delete "' + this.state.deleteConfirmationData.name + '"' : '';
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('').map(letter => 
+            <span className='letter' onClick={ () => this.onLetterClicked(letter) }>{letter}</span>
+        );
+
         return (
             <div id="people-bar" className={isExpanded ? 'expanded' : ''}>
                 <div className="people-bar-actions">
@@ -131,8 +142,12 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
                         <span className="people-count">Total: {this.state.people.length}</span>
                     </div>
                 </div>
+                <div className="alphabet">
+                    {alphabet}
+                </div>
                 <div className="people">
                     <ReactList
+                        ref={ ref => { this.peopleElements = ref } }
                         itemRenderer={(index, key) => { return this.renderPerson(people[index]) }}
                         length={people.length}
                         type='uniform'
