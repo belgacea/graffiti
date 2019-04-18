@@ -229,3 +229,7 @@ exports.createFolderSync = (dirPath) => {
         if (err.code !== 'EEXIST') throw err
     }
 }
+
+exports.tempGetName = (path) => {
+    return path.replace(/^.*[\\\/]/, '').replace(/\.[^/.]+$/, "");
+}

@@ -2,7 +2,7 @@ import * as _ from 'lodash'
 import Person from '../types/Person'
 import Video from '../types/Video';
 
-export default class VideoStore {
+export default class Persontore {
 
     private people:Person[];
     

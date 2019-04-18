@@ -78,6 +78,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                 />
                 <MenuDivider />
                 <MenuItem
+                    iconName="properties"
+                    text="Rules"
+                    onClick={() => Router.to.Rules()}
+                    />
+                <MenuItem
                     text="Settings"
                     iconName="cog"
                     onClick={() => Router.to.Settings()}

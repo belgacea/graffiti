@@ -142,6 +142,22 @@ export function myReducer(state:IState = {}, action:IAction):IState {
                 ...state,
                 currentVideo: Router.is.Home() ? null: state.currentVideo
             }
+        case ReduxActions.SAVE_RULE:
+        {
+            const rules = state.rules || [];
+            rules.splice(0, 0, action.rule);
+            return {
+                ...state,
+                rules: rules
+            }
+        }
+        case ReduxActions.LOAD_RULES:
+        {
+            return {
+                ...state,
+                rules: action.rules
+            }
+        }
         default:
             return state;
     }

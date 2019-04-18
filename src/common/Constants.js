@@ -47,7 +47,8 @@ exports.IpcEvents = {
                         Start: 'background:clean-up:start',
                         Progress: 'background:clean-up:progress',
                         Result: 'background:clean-up:result'
-                }
+                },
+                ApplyRule: 'background-apply-rule'
         },
         Person: {
                 Deleted: 'person:deleted'
@@ -93,5 +94,7 @@ exports.ReduxActions = {
         OPEN_EDIT_PERSON_MODAL: 'OPEN_EDIT_PERSON_MODAL',
         CLOSE_EDIT_PERSON_MODAL: 'CLOSE_EDIT_PERSON_MODAL',
         INJECT_VIDEOS: 'INJECT_VIDEOS',
-        ROUTE_CHANGED: 'ROUTE_CHANGED'
+        ROUTE_CHANGED: 'ROUTE_CHANGED',
+        SAVE_RULE: 'SAVE_RULE',
+        LOAD_RULES: 'LOAD_RULES'
 }

@@ -1,10 +1,12 @@
+import * as _ from 'lodash'
+import * as Analytics from '../common/Analytics';
+import { ReduxActions } from '../common/Constants'
 import VideoStore from '../store/VideoStore'
 import PersonStore from '../store/PersonStore'
 import Persistence from '../core/Persistence'
 import Video from '../types/Video'
 import Person from '../types/Person'
-import { ReduxActions } from '../common/Constants'
-import * as Analytics from '../common/Analytics';
+import Rule from '../types/Rule';
 
 export function search(search) {
     Analytics.events.VIDEO_SEARCH(search);
@@ -181,5 +183,32 @@ export function routeChanged(routeName:string) {
     return {
         type: ReduxActions.ROUTE_CHANGED,
         routeName
+    }
+}
+
+export function saveRule(rule: Rule) {
+    return function(dispatch) {
+        return new Persistence()
+            .insert(rule)
+            .then(() => {
+                dispatch({ 
+                    type: ReduxActions.SAVE_RULE,
+                    rule
+                });
+            })
+            .catch(err => { throw err })
+    }
+}
+
+export function loadRules() {
+    return function(dispatch) {
+        return new Persistence()
+            .getAll(Rule.TYPE)
+            .then((rules) => {
+                dispatch({
+                    type: ReduxActions.LOAD_RULES,
+                    rules: _.orderBy(rules, ['createdAt'], ['desc'])
+                })
+            })
     }
 }

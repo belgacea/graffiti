@@ -17,6 +17,7 @@ import VideoStore from '../store/VideoStore';
 import AppSettings from '../types/AppSettings';
 import Video from '../types/Video';
 import * as Analytics from '../common/Analytics';
+import Rule from '../types/Rule';
 
 console.log('in BackgroundWindow.js')
 
@@ -33,6 +34,7 @@ exports.init = function () {
     ipcRenderer.on(IpcEvents.Background.DeletePerson, onDeletePerson);
     ipcRenderer.on(IpcEvents.Background.Duplicates.Start, onStartDuplicates);
     ipcRenderer.on(IpcEvents.Background.CleanUp.Start, onStartCleanUp);
+    ipcRenderer.on(IpcEvents.Background.ApplyRule, onApplyRuleToVideos);
 
     console.log('Will start background tasks in 1 minute...')
     setTimeout(() => {
@@ -164,6 +166,22 @@ function onMatchPersonToVideos(event, person: Person) {
     });
 }
 
+function onApplyRuleToVideos(event, rule: Rule) {
+    console.log('BackgroundWindow.onApplyRuleToVideos')
+    const db = new Persistence();
+    db.getAll('video').then(videos => {
+        const altered = []
+        _.each(videos, video => {
+            if (Rule.tryApply(rule, video))
+                altered.push(video)
+        })
+        db.updateAll(altered).then(() => {
+            console.warn('TODO: only send ids')
+            mainWindow.webContents.send(IpcEvents.Video.ReplaceMultiple, altered);
+        });
+    });
+}
+
 function onDeletePerson(event, person: Person) {
     const db = new Persistence();
     db.getAll('video').then(videos => {
@@ -171,7 +189,7 @@ function onDeletePerson(event, person: Person) {
         const withoutPerson = Indexer.removePerson(videos, person);
         db.updateAll(withoutPerson)
         .then(() => {
-            console.warn('TODO: n\'envoyer que les ids')
+            console.warn('TODO: only send ids')
             mainWindow.webContents.send(IpcEvents.Video.ReplaceMultiple, withoutPerson);
 
             db.remove(person._id).then(numRemoved => {

@@ -11,6 +11,7 @@ export default class Router {
                           SearchResults: 'GET /search-results/:searchId',
                           Duplicates: 'GET /duplicates',
                           CleanUp: 'GET /clean-up',
+                          Rules: 'GET /rules',
                           Test: 'GET /test'
                         });
         }
@@ -40,6 +41,9 @@ export default class Router {
                 },
                 CleanUp: () => {
                         window.location.hash = '#/clean-up';
+                },
+                Rules: () => {
+                        window.location.hash = '#/rules'
                 }
         }
 

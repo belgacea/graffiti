@@ -1,6 +1,7 @@
 import Video from './Video';
 import Person from './Person';
 import Search from './Search';
+import Rule from './Rule';
 
 export default interface IState {
     search?: string
@@ -17,4 +18,5 @@ export default interface IState {
     isModelEditPersonOpen?:boolean
     editablePerson?:Person
     searchHistory?: Search[]
+    rules?: Rule[]
 }

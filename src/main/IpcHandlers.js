@@ -133,3 +133,7 @@ ipcMain.on(IpcEvents.Background.CleanUp.Start, (event) => {
   backgroundWindow.webContents.send(IpcEvents.Background.CleanUp.Start);
   Analytics.events.CLEAN_UP_START();
 });
+
+ipcMain.on(IpcEvents.Background.ApplyRule, (event, rule) => {
+  backgroundWindow.webContents.send(IpcEvents.Background.ApplyRule, rule);
+});

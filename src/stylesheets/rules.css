@@ -1,0 +1,28 @@
+#rules {
+
+}
+
+#rules .rule {
+
+}
+
+#rules .rule .rule-target {
+    margin: 2px;
+}
+
+#rules .rule .rule-condition {
+    margin: 2px;
+}
+
+#rules .rule .rule-pattern {
+    margin: 2px;
+}
+
+#rules .rule .rule-alteration {
+    margin: 2px;
+}
+
+#rules .rule .rule-tags {
+    margin: 2px;
+}
+

@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { IpcEvents } from './common/Constants'
 import * as Logger from './main/Logger'
 import configureStore from './redux/Store'
-import { loadVideos, loadPeople, injectVideos, routeChanged, replaceVideos, deletePerson } from './redux/Actions'
+import { loadVideos, loadPeople, injectVideos, routeChanged, replaceVideos, deletePerson, loadRules } from './redux/Actions'
 import * as Analytics from './common/Analytics';
 import * as Helper from './common/Helper';
 
@@ -34,12 +34,14 @@ import './stylesheets/peoplebar.css';
 import './stylesheets/searchresults.css';
 import './stylesheets/duplicates.css';
 import './stylesheets/modal.css';
+import './stylesheets/rules.css';
 
 import VideoStore from './store/VideoStore';
 import Router from './core/Router';
 import ToastHelper from './core/ToastHelper';
 import Persistence from './core/Persistence';
 import DatabaseUpgrade from "./core/DatabaseUpgrade";
+import Rules from "./views/Rules";
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 
@@ -72,6 +74,9 @@ const navigated = () => {
         case 'CleanUp':
             view = withLayout(<CleanUp />)
             break;
+        case 'Rules':
+            view = withLayout(<Rules />)
+            break;
         case 'Test':
             view = <Test />
             break;
@@ -88,7 +93,8 @@ Persistence.init();
 if (dbExists) {
     data = Promise.all([
         store.dispatch(loadVideos()),
-        store.dispatch(loadPeople())
+        store.dispatch(loadPeople()),
+        store.dispatch(loadRules()),
     ])
     .then(() => {
         console.log('Startup finished')
