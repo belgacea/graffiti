@@ -12,7 +12,7 @@ export function myReducer(state:IState = {}, action:IAction):IState {
         case ReduxActions.SEARCH:
         {
             const search = new Search();
-            search.request = action.search.replace(/[\W]/g,' ').trim().toLocaleLowerCase();
+            search.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
             const matchedPeople = state.people ? state.people.filter(p => p.match(search.request)) : [];
             search.videos = state.allVideos && search.request ? state.allVideos.filter((v) => v.match(search.request, matchedPeople)) : state.allVideos;
             search.people = new PersonStore(state.people).getPeopleByVideos(search.videos);

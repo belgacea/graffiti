@@ -68,12 +68,13 @@ export default class Video {
                 // const words = _.compact(search.replace(/[\W]/g,' ').trim().toLocaleLowerCase().split(' '));
                 const words = _.compact(search.split(' '));
                 const tags = this.tags ? this.tags.toString().toLocaleLowerCase() : "";
-                let data = this.path.toLocaleLowerCase() + " " + tags;
+                let data = this.path + " " + tags;
 
-                const hasMatchedPeople = _.intersection(this.people, people.map(p => p._id)).length > 0;
-                if (hasMatchedPeople) {
-                        data = data + " " + people.map(p => p.name.toLocaleLowerCase()).toString()
-                }
+                // add the person properties to the searchable data
+                const matchedPeople = _.intersection(this.people, people.map(p => p._id)).map(id => _.find(people, (p:Person) => p._id === id));
+                _.each(matchedPeople, p => data += " " + p.name);
+
+                data = data.toLocaleLowerCase();
 
                 for (let i = 0; i < words.length; i++) {
                         let w = words[i].trim();
@@ -81,7 +82,7 @@ export default class Video {
                                 return false;
                         }
                 }
-
+                
                 return true;
         }
 
