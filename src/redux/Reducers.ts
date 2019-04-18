@@ -20,7 +20,7 @@ export function myReducer(state:IState = {}, action:IAction):IState {
                 const matchedPeople = state.people ? state.people.filter(p => p.match(searchResults.request)) : [];
                 searchResults.videos = state.allVideos && searchResults.request ? state.allVideos.filter((v) => v.match(searchResults.request, matchedPeople)) : state.allVideos;
                 searchResults.people = new PersonStore(state.people).getPeopleByVideos(searchResults.videos);
-                searchHistory = [...state.searchHistory || [], searchResults]
+                searchHistory = [searchResults, ...state.searchHistory || []]
                 Router.to.SearchResults(searchResults.id);
             }
             else {
@@ -33,11 +33,14 @@ export function myReducer(state:IState = {}, action:IAction):IState {
             };
         }
         case ReduxActions.LOAD_VIDEOS_LIST_SUCCESS:
-            const ordered = new VideoStore(action.videos).orderByDefault();
+            const store = new VideoStore(action.videos);
+            const ordered = store.orderByDefault();
+            const bookmarks = store.getBookmarked();
             return {
                 ...state,
                 videos: ordered,
-                allVideos: ordered
+                allVideos: ordered,
+                bookmarks
             }
         case ReduxActions.LOAD_PERSON_DETAILS_SUCCES:
             const videos = new VideoStore(state.allVideos).getAllByPersonId(action.personId)
@@ -109,10 +112,18 @@ export function myReducer(state:IState = {}, action:IAction):IState {
             }
         }
         case ReduxActions.MARK_FAVORITE_SUCCESS: {
+            const bookmarks = state.bookmarks || [];
+            if (action.video.isFavorite) {
+                bookmarks.splice(0, 0, action.video)
+            }
+            else {
+                bookmarks.splice(_.findIndex(bookmarks, { '_id': action.video._id }), 1)
+            }
             return {
                 ...state,
                 videos: state.allVideos,
-                currentVideo: VideoStore.prepareUi(action.video) // pass through VideoStore to have a new instance and force a render
+                currentVideo: VideoStore.prepareUi(action.video), // pass through VideoStore to have a new instance and force a render
+                bookmarks
             }
         }
         case ReduxActions.OPEN_EDIT_PERSON_MODAL: {

@@ -19,4 +19,5 @@ export default interface IState {
     editablePerson?:Person
     searchHistory?: Search[]
     rules?: Rule[]
+    bookmarks?: Video[]
 }

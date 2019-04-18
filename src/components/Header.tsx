@@ -6,11 +6,13 @@ import { bindActionCreators } from 'redux'
 import Router from '../core/Router'
 import { KeyCodes } from '../common/Constants'
 import Search from "../types/Search";
+import Video from "../types/Video";
 
 interface IHeaderProps {
     // dispatch?: Function
     doSearch?: Function
     searchHistory?: Search[]
+    bookmarks?: Video[]
 }
 
 interface IHeaderState {
@@ -63,6 +65,10 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         this.props.doSearch('')
     }
 
+    componentWillReceiveProps(nextProps: IHeaderProps) {
+        console.log(nextProps)
+    }
+
     public renderMenu() {
         return (
             <Menu>
@@ -102,6 +108,17 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     }
 
+    renderBookmarks() {
+        const elements = (this.props.bookmarks || []).map(video => <MenuItem key={video._id} text={video.getName()} onClick={() => Router.to.VideoDetails(video._id)} />)
+        return (
+            <div className="pt-navbar-group pt-align-left">
+                <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_LEFT}>
+                    <button className="pt-button pt-minimal pt-icon-bookmark"></button>
+                </Popover>
+            </div>
+        );
+    }
+
     render() {
         return (
             <nav className="pt-navbar pt-dark">
@@ -110,6 +127,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     {/* <Icon className='nav-button' iconName='pt-icon-chevron-left' onClick={this.back} /> */}
                     {/* <Icon className='nav-button home' iconName='pt-icon-home' onClick={this.home} /> */}
                     { this.renderHistory() }
+                    { this.renderBookmarks() }
                     <button className="pt-button pt-minimal pt-icon-home" onClick={this.home}>Home</button>
                     <input className="pt-input" type="text" placeholder="Search" dir="auto" id='search-input'
                         onChange={this.handleChange}
@@ -131,7 +149,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
 function mapStateToProps(state, ownProps): IHeaderProps {
     return {
-        searchHistory: state.myReducer.searchHistory
+        searchHistory: state.myReducer.searchHistory,
+        bookmarks: state.myReducer.bookmarks
     }
 }
 

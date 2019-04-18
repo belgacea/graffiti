@@ -24,6 +24,10 @@ export default class VideoStore {
         return _.orderBy(this.videos, ['fileCreationTime'], ['desc']);
     }
 
+    public getBookmarked() {
+        return _.filter(this.videos, (video: Video) => video.isFavorite);
+    }
+
     public replace(videos:Video[]) {
         const allExceptReceived = _.remove(this.videos, video => !_.includes(videos.map(v => v._id), video._id));
         this.videos = [
