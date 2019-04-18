@@ -123,7 +123,7 @@ export function myReducer(state:IState = {}, action:IAction):IState {
                 ...state,
                 videos: state.allVideos,
                 currentVideo: VideoStore.prepareUi(action.video), // pass through VideoStore to have a new instance and force a render
-                bookmarks
+                bookmarks: [...bookmarks]
             }
         }
         case ReduxActions.OPEN_EDIT_PERSON_MODAL: {

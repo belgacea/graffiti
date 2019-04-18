@@ -83,7 +83,7 @@ export default class VideoCard extends React.Component<IVideoCardProps, IVideoCa
         const {video} = this.props;
         const {hasError, currentScreenshotIndex} = this.state;
         const screen = currentScreenshotIndex === undefined ? video.getMainScreen() : video.getScreen(currentScreenshotIndex);
-        console.log(screen)
+        
         return (
             // <Popover
             //     interactionKind={PopoverInteractionKind.HOVER}

@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from 'react-redux'
 import { Icon, Popover, Menu, MenuItem, MenuDivider, Position, Button } from '@blueprintjs/core';
 import * as myActions from '../redux/Actions'
+import IState from '../types/IState'
 import { bindActionCreators } from 'redux'
 import Router from '../core/Router'
 import { KeyCodes } from '../common/Constants'
@@ -147,7 +148,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 }
 
-function mapStateToProps(state, ownProps): IHeaderProps {
+function mapStateToProps(state: { myReducer:IState }, ownProps): IHeaderProps {
     return {
         searchHistory: state.myReducer.searchHistory,
         bookmarks: state.myReducer.bookmarks
