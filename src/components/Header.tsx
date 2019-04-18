@@ -12,6 +12,7 @@ import Video from "../types/Video";
 interface IHeaderProps {
     // dispatch?: Function
     doSearch?: Function
+    loadVideoDetails?: Function
     searchHistory?: Search[]
     bookmarks?: Video[]
 }
@@ -110,7 +111,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 
     renderBookmarks() {
-        const elements = (this.props.bookmarks || []).map(video => <MenuItem key={video._id} text={video.getName()} onClick={() => Router.to.VideoDetails(video._id)} />)
+        const load = (video: Video) => {
+            this.props.loadVideoDetails(video._id)
+            Router.to.VideoDetails(video._id);
+        }
+        const elements = (this.props.bookmarks || []).map(video => <MenuItem key={video._id} text={video.getName()} onClick={() => load(video)} />)
         return (
             <div className="pt-navbar-group pt-align-left">
                 <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_RIGHT}>
@@ -157,6 +162,7 @@ function mapStateToProps(state: { myReducer:IState }, ownProps): IHeaderProps {
 
 function mapDispatchToProps(dispatch): IHeaderProps {
     return {
+        loadVideoDetails: videoId => dispatch(myActions.loadVideoDetails(videoId)),
         doSearch: value => dispatch(myActions.search(value))
     }
 }
