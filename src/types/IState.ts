@@ -16,4 +16,5 @@ export default interface IState {
     previousVideoId?:string
     isModelEditPersonOpen?:boolean
     editablePerson?:Person
+    searchHistory?: Search[]
 }

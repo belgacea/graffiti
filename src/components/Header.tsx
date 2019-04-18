@@ -5,10 +5,12 @@ import * as myActions from '../redux/Actions'
 import { bindActionCreators } from 'redux'
 import Router from '../core/Router'
 import { KeyCodes } from '../common/Constants'
+import Search from "../types/Search";
 
 interface IHeaderProps {
     // dispatch?: Function
     doSearch?: Function
+    searchHistory?: Search[]
 }
 
 interface IHeaderState {
@@ -84,6 +86,17 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         );
     }
 
+    renderHistory() {
+        const elements = (this.props.searchHistory || []).map(item => <MenuItem key={item.id} text={item.toString()} onClick={() => Router.to.SearchResults(item.id)} />)
+        return (
+            <div className="pt-navbar-group pt-align-left">
+                <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_LEFT}>
+                    <button className="pt-button pt-minimal pt-icon-menu"></button>
+                </Popover>
+            </div>
+        );
+    }
+
     render() {
         return (
             <nav className="pt-navbar pt-dark">
@@ -91,6 +104,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     <button className="pt-button pt-minimal pt-icon-chevron-left" onClick={this.back}></button>
                     {/* <Icon className='nav-button' iconName='pt-icon-chevron-left' onClick={this.back} /> */}
                     {/* <Icon className='nav-button home' iconName='pt-icon-home' onClick={this.home} /> */}
+                    { this.renderHistory() }
                     <button className="pt-button pt-minimal pt-icon-home" onClick={this.home}>Home</button>
                     <input className="pt-input" type="text" placeholder="Search" dir="auto" id='search-input'
                         onChange={this.handleChange}
@@ -112,6 +126,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
 
 function mapStateToProps(state, ownProps): IHeaderProps {
     return {
+        searchHistory: state.myReducer.searchHistory
     }
 }
 

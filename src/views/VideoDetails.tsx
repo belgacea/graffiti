@@ -27,6 +27,7 @@ import ToastHelper from '../core/ToastHelper';
 
 import * as Analytics from '../common/Analytics';
 import { IpcEvents } from '../common/Constants'
+import RenameModal from '../modal/RenameModal';
 
 interface IVideoDetailsReduxProps {
     video: Video;
@@ -48,8 +49,9 @@ interface IVideoDetailsProps extends IVideoDetailsReduxActions, IVideoDetailsRed
 
 interface IVideoDetailsState {
     isModalAttachPeopleOpen: boolean
+    isModalRenameOpen: boolean
     tags: string[],
-    deleteConfirmationIsOpen: boolean
+    isDeleteConfirmationOpen: boolean
     deleteConfirmationData: Video
     videoPath?: string // only for FileExistence because it doesn't update all the time, TODO investigate
 }
@@ -63,31 +65,33 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
         // console.log('VideoDetails.constructor')
         this.state = {
             isModalAttachPeopleOpen: false,
+            isModalRenameOpen: false,
             tags: [],
-            deleteConfirmationIsOpen: false,
+            isDeleteConfirmationOpen: false,
             deleteConfirmationData: props.video
         };
     }
 
     componentDidMount() {
-        const doPlay = () => () => { 
-            if (this.state.deleteConfirmationIsOpen) {
+        const onEnter = () => {
+            if (this.state.isDeleteConfirmationOpen) {
                 this.handleRecycleConfirmed(this.state.deleteConfirmationData)
             }
             else {
                 this.play()
             }
-         }
+        }
         // console.log('VideoDetails.componentDidMount')
         ipcRenderer.on(IpcEvents.Screenshot.CreatedVideo, this.onScreenshotCreated);
         this.props.load(this.props.videoId);
         Mousetrap.bind('del', () => { this.recycle() });
-        Mousetrap.bind('enter', doPlay);
-        Mousetrap.bind('space', doPlay);
+        Mousetrap.bind('enter', onEnter);
+        Mousetrap.bind('space', onEnter);
         Mousetrap.bind('p', () => { this.previous() });
         Mousetrap.bind('v', () => { this.previous() });
         Mousetrap.bind('n', () => { this.next() });
         Mousetrap.bind('ctrl+e', () => { this.handleOpenContainingFolder(null) });
+        Mousetrap.bind('f2', () => { this.handleRename() });
     }
 
     componentWillUnmount() {
@@ -99,6 +103,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
         Mousetrap.unbind('v');
         Mousetrap.unbind('n');
         Mousetrap.unbind('ctrl+e');
+        Mousetrap.unbind('f2');
     }
 
     onScreenshotCreated = (event: any, videoScreenshots: Video) => {
@@ -108,41 +113,46 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
 
     recycle = () => {
         if (!this.props.video.deleted) {
-            this.setState({ deleteConfirmationIsOpen: true, deleteConfirmationData: this.props.video });
+            this.setState({ isDeleteConfirmationOpen: true, deleteConfirmationData: this.props.video });
         }
     }
 
     restore = () => {
-        const {video} = this.props;
+        const { video } = this.props;
         if (video.deleted) {
-            new Persistence().setFields(video._id, { deleted: undefined })
-            .then(() => {
-                video.deleted = undefined;
-                this.props.replaceVideos([video])
-                ToastHelper.success('Video restored.');
-            });
+            new Persistence().setFields(video._id, { deleted: false })
+                .then(() => {
+                    video.deleted = undefined;
+                    this.props.replaceVideos([video])
+                    ToastHelper.success('Video restored.');
+                });
         }
     }
 
-    handleRecycleConfirmed = (video:Video) => {
+    handleRecycleConfirmed = (video: Video) => {
         Analytics.events.VIDEO_REMOVE();
         ToastHelper.info('Deleting...');
-        this.setState({ deleteConfirmationIsOpen: false, deleteConfirmationData: undefined });
-        
-        new Persistence().setFields(video._id, { deleted: true })
-        .then(() => {
-            video.deleted = true;
-            this.props.replaceVideos([video])
-            console.log('db updated: deleted', video._id);
+        this.setState({ isDeleteConfirmationOpen: false, deleteConfirmationData: undefined });
 
-            Util.recycleFile(video.path)
+        new Persistence().setFields(video._id, { deleted: true })
             .then(() => {
-                ToastHelper.success('Video removed.');
-            })
-            .catch(() => {
-                ToastHelper.error('Could not remove the video.')
+                video.deleted = true;
+                this.props.replaceVideos([video])
+                console.log('db updated: deleted', video._id);
+
+                Util.recycleFile(video.path)
+                    .then(() => {
+                        ToastHelper.success('Video removed.');
+                    })
+                    .catch(() => {
+                        ToastHelper.error('Could not remove the video.')
+                    });
             });
-        });
+    }
+
+
+    handleRename = () => {
+        this.setState({ isModalRenameOpen: true });
     }
 
     async componentWillReceiveProps(nextProps: IVideoDetailsProps) {
@@ -193,13 +203,17 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
     }
 
     previous = () => {
-        Router.to.VideoDetails(this.props.previousVideoId);
-        this.props.load(this.props.previousVideoId);
+        if (this.props.previousVideoId) {
+            Router.to.VideoDetails(this.props.previousVideoId);
+            this.props.load(this.props.previousVideoId);
+        }
     }
 
     next = () => {
-        Router.to.VideoDetails(this.props.nextVideoId);
-        this.props.load(this.props.nextVideoId);
+        if (this.props.nextVideoId) {
+            Router.to.VideoDetails(this.props.nextVideoId);
+            this.props.load(this.props.nextVideoId);
+        }
     }
 
     renderThumbnail = (screenshot: Screenshot, index: number) => {
@@ -207,7 +221,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
     }
 
     renderPerson = (person: Person, index: number) => {
-        return <PersonCircle key={person._id} person={person} size='medium'/>;
+        return <PersonCircle key={person._id} person={person} size='medium' />;
     }
 
     renderPopoverContent() {
@@ -223,19 +237,24 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
                     onClick={this.handleMakeScreenshots}
                     text="Make screenshots"
                 />
+                <MenuItem
+                    iconName="pt-icon-annotation"
+                    onClick={this.handleRename}
+                    text="Rename"
+                />
                 {
                     this.props.video.deleted ?
-                    <MenuItem
-                        iconName="pt-icon-trash"
-                        onClick={this.restore}
-                        text="Restore"
-                    />
-                    :
-                    <MenuItem
-                        iconName="pt-icon-trash"
-                        onClick={this.recycle}
-                        text="Remove"
-                    />
+                        <MenuItem
+                            iconName="pt-icon-trash"
+                            onClick={this.restore}
+                            text="Restore"
+                        />
+                        :
+                        <MenuItem
+                            iconName="pt-icon-trash"
+                            onClick={this.recycle}
+                            text="Remove"
+                        />
                 }
             </Menu>
         );
@@ -270,17 +289,17 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
     }
 
     renderFileInfo() {
-        const {videoPath} = this.state;
-        const {video} = this.props;
+        const { videoPath } = this.state;
+        const { video } = this.props;
         return (
             <div className="file-info">
                 <FileExistenceIndicator path={videoPath} />
                 {
                     video.deleted ?
-                    <Tooltip content='This file is marked as deleted' position={Position.RIGHT}>
-                        <Icon iconName="pt-icon-trash" className='file-status-icon' style={{ color: '#A82A2A' }} />
-                    </Tooltip>
-                    : null
+                        <Tooltip content='This file is marked as deleted' position={Position.RIGHT}>
+                            <Icon iconName="pt-icon-trash" className='file-status-icon' style={{ color: '#A82A2A' }} />
+                        </Tooltip>
+                        : null
                 }
                 {this.renderBreadCrumb()}
             </div>
@@ -288,16 +307,16 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
     }
 
     renderBreadCrumb() {
-        const {video} = this.props;
+        const { video } = this.props;
         const breadcrumbs = [];
         if (video) {
             const separator = process.platform === "win32" ? '\\' : '/';
             const crumbs = video.path.split(separator)
             let incrementalPath = '';
-            for(let i = 0; i < crumbs.length - 1; i++) {
+            for (let i = 0; i < crumbs.length - 1; i++) {
                 incrementalPath += crumbs[i] + separator;
                 let currentPath = incrementalPath;
-                breadcrumbs.push(<li key={'crumb'+i}><a className="pt-breadcrumb" onClick={() => this.handleExploreFolder(currentPath)}>{crumbs[i]}</a></li>)
+                breadcrumbs.push(<li key={'crumb' + i}><a className="pt-breadcrumb" onClick={() => this.handleExploreFolder(currentPath)}>{crumbs[i]}</a></li>)
             }
         }
         return (
@@ -329,7 +348,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
     private renderDeletedOverlay() {
         return (
             // visual='pt-icon-cross'
-            <div className='deleted-overlay' style={{display: 'none'}}>
+            <div className='deleted-overlay' style={{ display: 'none' }}>
                 <NonIdealState
                     visual='pt-icon-trash'
                     title='This video is removed'
@@ -340,7 +359,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
 
     render() {
         const { video, people, nextVideoId, previousVideoId } = this.props;
-        const { isModalAttachPeopleOpen, videoPath } = this.state;
+        const { isModalAttachPeopleOpen, videoPath, isModalRenameOpen } = this.state;
         if (video) {
             const favClass = video.isFavorite ? ' is-fav' : '';
             const screenshotElements = !video.screenshots ? null : video.screenshots.map(this.renderThumbnail);
@@ -354,8 +373,8 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
                         </Tooltip>
                         <Button className='next pt-small' rightIconName='arrow-right' disabled={!nextVideoId} onClick={this.next}>Next</Button>
                     </div>
-                    { video.deleted ? this.renderDeletedOverlay() : null }
-                    { videoPath ? this.renderFileInfo() : null }
+                    {video.deleted ? this.renderDeletedOverlay() : null}
+                    {videoPath ? this.renderFileInfo() : null}
                     <div className='buttons'>
                         <Icon className='play video-action' iconName='pt-icon-play' onClick={this.play} />
                         {/* <Icon className={'fav video-action' + favClass} iconName='pt-icon-heart' onClick={ this.markFavorite }/> */}
@@ -391,15 +410,21 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
                         isOpen={isModalAttachPeopleOpen}
                         onClose={() => this.setState({ isModalAttachPeopleOpen: false })}
                         onSaved={this.handleSavePeople}
-                        />
+                    />
                     <ConfirmAlert
-                        isOpen={this.state.deleteConfirmationIsOpen}
+                        isOpen={this.state.isDeleteConfirmationOpen}
                         text="Are you sure? This video will be removed from your library."
                         confirmButtonText='Move to recycle bin'
-                        handleCancel={() => this.setState({ deleteConfirmationIsOpen: false})}
+                        handleCancel={() => this.setState({ isDeleteConfirmationOpen: false })}
                         data={this.state.deleteConfirmationData}
                         handleConfirm={this.handleRecycleConfirmed}
-                        />
+                    />
+                    <RenameModal
+                        video={video}
+                        isOpen={isModalRenameOpen}
+                        onClose={() => this.setState({ isModalRenameOpen: false })}
+                        onRenamed={(renamed) => { this.props.replaceVideos([renamed]) }}
+                    />
                 </div>
             );
         }

@@ -11,4 +11,8 @@ export default class Search {
     public constructor() {
             this.id = uuidv1();
     }
+
+    public toString() {
+        return this.request;
+    }    
 }

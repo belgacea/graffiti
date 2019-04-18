@@ -41,6 +41,16 @@ export default class Video {
                 }
         }
 
+        public getExtension() {
+                const indexDot = this.path.lastIndexOf('.');
+                return this.path.substr(indexDot, this.path.length - indexDot);
+        }
+
+        public setName(name: string) {
+                const newPath = Path.join(Path.dirname(this.path), name + this.getExtension())
+                this.path = newPath;
+        }
+
         public getMainScreen(): string {
                 return this.screenshots[Video.INDEX_MAIN_SCREEN] ? this.getScreenshotFullpath(this.screenshots[Video.INDEX_MAIN_SCREEN].path) : undefined;
         }

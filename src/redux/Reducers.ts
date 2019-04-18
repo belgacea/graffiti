@@ -11,21 +11,22 @@ export function myReducer(state:IState = {}, action:IAction):IState {
     switch(action.type) {
         case ReduxActions.SEARCH:
         {
-            const search = new Search();
-            search.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
-            const matchedPeople = state.people ? state.people.filter(p => p.match(search.request)) : [];
-            search.videos = state.allVideos && search.request ? state.allVideos.filter((v) => v.match(search.request, matchedPeople)) : state.allVideos;
-            search.people = new PersonStore(state.people).getPeopleByVideos(search.videos);
+            const searchResults = new Search();
+            searchResults.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
+            const matchedPeople = state.people ? state.people.filter(p => p.match(searchResults.request)) : [];
+            searchResults.videos = state.allVideos && searchResults.request ? state.allVideos.filter((v) => v.match(searchResults.request, matchedPeople)) : state.allVideos;
+            searchResults.people = new PersonStore(state.people).getPeopleByVideos(searchResults.videos);
             
-            if (search.request) {
-                Router.to.SearchResults(search.id);
+            if (searchResults.request) {
+                Router.to.SearchResults(searchResults.id);
             }
             else {
                 Router.to.Home();
             }
             return {
                 ...state,
-                searchResults: search
+                searchResults: searchResults,
+                searchHistory: [...state.searchHistory || [], searchResults]
             };
         }
         case ReduxActions.LOAD_VIDEOS_LIST_SUCCESS:

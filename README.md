@@ -25,7 +25,7 @@ The following formats are recongized: .avi, .mov, .wmv, .mp4, .m4v, .mkv, .3gp, 
 
 <kbd>CTRL</kbd>+<kbd>H</kbd> Navigate to Home.
 
-<kbd>DEL</kbd> Move the current video to the bin.
+<kbd>DEL</kbd> Move the video to the bin.
 
 <kbd>ENTER</kbd> or <kbd>SPACE</kbd> Play the video.
 
@@ -34,6 +34,8 @@ The following formats are recongized: .avi, .mov, .wmv, .mp4, .m4v, .mkv, .3gp, 
 <kbd>N</kbd> Next video.
 
 <kbd>CTRL</kbd>+<kbd>E</kbd> Open the containing folder.
+
+<kbd>F2</kbd> Rename video.
 
 ## Development
 

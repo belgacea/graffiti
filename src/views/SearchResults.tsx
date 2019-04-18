@@ -20,8 +20,8 @@ interface ISearchResultsState {
 class SearchResults extends React.Component<ISearchResultsProps, ISearchResultsState> {
     public static scrollY:number = 0;
     
-    constructor() {
-        super();
+    constructor(props: ISearchResultsProps) {
+        super(props);
     }
 
     renderPerson = (person: Person, index: number) => {
@@ -31,6 +31,7 @@ class SearchResults extends React.Component<ISearchResultsProps, ISearchResultsS
     render() {
         const {searchResults} = this.props;
         const videos = searchResults ? searchResults.videos : [];
+        const request = searchResults ? searchResults.request : '';
         const peopleElements = searchResults && searchResults.people ? searchResults.people.map(this.renderPerson) : null;
 
         return (
@@ -38,7 +39,7 @@ class SearchResults extends React.Component<ISearchResultsProps, ISearchResultsS
                 <div className='people'>
                         {peopleElements}
                     </div>
-                <h3>Search: {searchResults.request}</h3>
+                <h3>Search: {request}</h3>
                 <div id="video-list">
                     <VideoGrid videos={ videos } />
                 </div>

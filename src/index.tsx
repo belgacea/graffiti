@@ -33,6 +33,7 @@ import './stylesheets/suggestiveinput.css';
 import './stylesheets/peoplebar.css';
 import './stylesheets/searchresults.css';
 import './stylesheets/duplicates.css';
+import './stylesheets/modal.css';
 
 import VideoStore from './store/VideoStore';
 import Router from './core/Router';
@@ -123,7 +124,7 @@ else {
 }
 
 window.addEventListener('hashchange', navigated, false);
-window.addEventListener('error', error => { Logger.error(error, 'Window'); console.log('Erreur dans window', error) }); // TODO look for  try/catch and .catch of promises
+window.addEventListener('error', error => { Logger.error(error, 'Window'); console.log('Error in window', error) }); // TODO look for  try/catch and .catch of promises
 window.addEventListener('auxclick', (e) => { console.log(e) }, true);
 
 Mousetrap.bind('ctrl+f', () => { 

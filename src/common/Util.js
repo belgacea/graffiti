@@ -144,7 +144,7 @@ exports.deleteInexistant = (videos, outputPath, callbackFinished) => {
     });
     
     async.parallelLimit(asyncFunctions, 8, (err, result) => {
-        console.log('analysis finished. fileToDelete = ' + fileToDelete);
+        console.log('analyse finished. fileToDelete = ' + fileToDelete);
         const errors = _.filter(result, r => r === null).length;
         result = _.compact(result);
 
@@ -194,6 +194,31 @@ exports.recycleFile = (path) => {
     });
 
     return promise;
+}
+
+exports.renameFile = (path, newName) => {
+    console.warn('TODO: different way of renaming according to platform');
+
+    const promise = new Promise((resolve, reject) => {
+        const callback = (err, stdout) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(stdout);
+            }
+        };
+            
+        if (process.platform === 'win32') {
+            exec(`RENAME "${path}" "${newName}"`, callback)
+        }
+        else {
+            reject(new Error('Rename only works on Windows for now'))
+        }
+    });
+
+    return promise;
+
 }
 
 exports.createFolderSync = (dirPath) => {
