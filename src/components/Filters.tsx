@@ -51,7 +51,7 @@ class Filters extends React.Component<IFiltersProps, IFiltersState> {
 
     renderFilterTags = () => {
         const tags = _.uniq(_.compact(_.flattenDeep(this.props.currentVideos.map(v => v.tags)))) as string[];
-        const tagElements = tags.map(tag => {
+        const tagElements = _.orderBy(tags).map(tag => {
             const className = 'tag'
             const isTagSelected = this.props.search.selectedTags.indexOf(tag) >= 0;
             return <Tag key={tag} className={className + (isTagSelected ? ' selected' : '')} onClick={() => this.handleTagClicked(tag)}>{tag}</Tag>
