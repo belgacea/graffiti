@@ -56,7 +56,7 @@ export default class Video {
         }
 
         public getMainScreen(): string {
-                // TODO remove function and use getScreen(index: number = Video.INDEX_MAIN_SCREEN)
+                // TODO remove Video.INDEX_MAIN_SCREEN and add feature set main screen
                 return this.getScreen(Video.INDEX_MAIN_SCREEN);
         }
 

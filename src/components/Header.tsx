@@ -67,7 +67,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 
     componentWillReceiveProps(nextProps: IHeaderProps) {
-        console.log(nextProps)
+        // console.log(nextProps)
     }
 
     public renderMenu() {
@@ -99,7 +99,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     }
 
     renderHistory() {
-        const elements = (this.props.searchHistory || []).map(item => <MenuItem key={item.id} text={item.toString()} onClick={() => Router.to.SearchResults(item.id)} />)
+        const elements = (this.props.searchHistory || []).map(item => <MenuItem key={item.id} text={item.toString()} onClick={() => this.props.doSearch(item.request)} />)
         return (
             <div className="pt-navbar-group pt-align-left">
                 <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_LEFT}>
