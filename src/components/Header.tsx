@@ -64,7 +64,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     public renderMenu() {
         return (
             <Menu>
-                {/* <MenuItem
+                <MenuItem
                     iconName="comparison"
                     onClick={() => Router.to.Duplicates()}
                     text="Duplicates"
@@ -74,7 +74,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
                     onClick={() => Router.to.CleanUp()}
                     text="Clean up"
                 />
-                <MenuDivider /> */}
+                <MenuDivider />
                 <MenuItem
                     text="Settings"
                     iconName="cog"
