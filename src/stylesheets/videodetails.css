@@ -89,6 +89,7 @@
 
 .file-status-icon {
     margin-right: 10px;
+    cursor: pointer;
 }
 
 #search-results .people {

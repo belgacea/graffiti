@@ -21,6 +21,7 @@ export default class FileExistenceIndicator extends React.Component<IFileExisten
     }
 
     refresh = () => {
+        this.setState({fileExists: undefined})
         const { path } = this.state;
         if (!path) return;
         //console.warn('fs.exists is deprecated') // https://stackoverflow.com/questions/4482686/check-synchronously-if-file-directory-exists-in-node-js
