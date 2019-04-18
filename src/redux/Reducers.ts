@@ -11,13 +11,16 @@ export function myReducer(state:IState = {}, action:IAction):IState {
     switch(action.type) {
         case ReduxActions.SEARCH:
         {
-            const searchResults = new Search();
-            searchResults.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
-            const matchedPeople = state.people ? state.people.filter(p => p.match(searchResults.request)) : [];
-            searchResults.videos = state.allVideos && searchResults.request ? state.allVideos.filter((v) => v.match(searchResults.request, matchedPeople)) : state.allVideos;
-            searchResults.people = new PersonStore(state.people).getPeopleByVideos(searchResults.videos);
-            
-            if (searchResults.request) {
+            let searchResults;
+            let searchHistory = state.searchHistory;
+
+            if (action.search) {
+                searchResults = new Search();
+                searchResults.request = action.search.replace(/[\W]/g,' ').replace(/_+/g,' ').trim().toLocaleLowerCase();
+                const matchedPeople = state.people ? state.people.filter(p => p.match(searchResults.request)) : [];
+                searchResults.videos = state.allVideos && searchResults.request ? state.allVideos.filter((v) => v.match(searchResults.request, matchedPeople)) : state.allVideos;
+                searchResults.people = new PersonStore(state.people).getPeopleByVideos(searchResults.videos);
+                searchHistory = [...state.searchHistory || [], searchResults]
                 Router.to.SearchResults(searchResults.id);
             }
             else {
@@ -26,7 +29,7 @@ export function myReducer(state:IState = {}, action:IAction):IState {
             return {
                 ...state,
                 searchResults: searchResults,
-                searchHistory: [...state.searchHistory || [], searchResults]
+                searchHistory: searchHistory
             };
         }
         case ReduxActions.LOAD_VIDEOS_LIST_SUCCESS:
@@ -76,13 +79,14 @@ export function myReducer(state:IState = {}, action:IAction):IState {
         case ReduxActions.LOAD_VIDEO_DETAILS_SUCCES:
             const video = new VideoStore(state.allVideos).getById(action.videoId);
             const people = new PersonStore(state.people).getPeopleByIds(video.people);
-            const currentIndex = state.videos.indexOf(video);
+            const currentVideos = state.searchResults ? state.searchResults.videos : state.videos;
+            const currentIndex = currentVideos.indexOf(video);
             return {
                 ...state,
                 currentVideo: video,
                 currentPeople: [...people],
-                nextVideoId: (currentIndex + 1 < state.videos.length) ? state.videos[currentIndex + 1]._id : undefined,
-                previousVideoId: (currentIndex - 1 >= 0) ? state.videos[currentIndex - 1]._id : undefined
+                nextVideoId: (currentIndex + 1 < currentVideos.length) ? currentVideos[currentIndex + 1]._id : undefined,
+                previousVideoId: (currentIndex - 1 >= 0) ? currentVideos[currentIndex - 1]._id : undefined
             }
         case ReduxActions.SAVE_ATTACHED_PEOPLE_SUCCESS:
         // bof, i should use CREATE_PERSON to add the created people to the state

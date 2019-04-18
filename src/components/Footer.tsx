@@ -26,8 +26,15 @@ class Footer extends React.Component<IFooterReduxProps, undefined> {
 }
 
 function mapStateToProps(state, ownProps):IFooterReduxProps {
+    let videoCount = 0;
+    if (state.myReducer.searchResults) {
+        videoCount = state.myReducer.searchResults.videos.length;
+    }
+    else if (state.myReducer.videos) {
+        videoCount = state.myReducer.videos.length;
+    }
     return {
-        videoCount: state.myReducer.videos ? state.myReducer.videos.length : 0,
+        videoCount: videoCount,
         path: state.myReducer.currentVideo ? state.myReducer.currentVideo.path : ''
     }
 }
