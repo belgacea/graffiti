@@ -1,0 +1,122 @@
+
+#video-details .video-action {
+    cursor: pointer;
+}
+
+#video-details .play {
+    font-size: 50px;
+}
+
+#video-details .fav {
+    font-size: 35px;
+    padding-left: 9px;
+}
+
+#video-details .is-fav {
+    color: #A82255 !important;
+    font-size: 35px;
+    padding-left: 9px;
+}
+
+#video-details .more {
+    font-size: 30px;
+    padding-left: 11px;
+}
+
+#video-details .title {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+#video-details .buttons {
+    float: right;
+    display: inline-grid;
+    margin-right: 5px;
+}
+
+#video-details .navigation {
+    background-color: #E1E8ED;
+    margin-left: -5px;
+    height: 35px;
+}
+
+#video-details .file-info {
+    background-color: #EBF1F5;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    line-height: 30px;
+}
+
+#video-details .previous {
+    margin-left: 5px;
+    margin-right: 5px;
+    float: left;
+    margin-top: 5px;
+}
+
+#video-details .next {
+    float: right;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+#video-details .screenshots {
+    margin-left: 10px;
+    overflow-y: auto;
+    height: calc(100vh - 310px); /*viewport - (header+header+info+margin+people+margin+footer)*/
+}
+
+#video-details .video-info {
+    font-size: larger;
+    height: 80px;
+    width: 100%;
+    background-color: #F5F8FA;
+    margin-bottom: 5px;
+    padding-left: 5px;
+}
+
+#video-details .metadata {
+    float: left;
+    margin-right: 10px;
+}
+
+#video-details .tags:hover {
+    border: #A82255 1px;
+    height: 100%;
+}
+
+.file-status-icon {
+    margin-right: 10px;
+}
+
+#search-results .people {
+    display: inline-flex;
+    overflow-x: auto;
+    width: 100%;
+}
+
+#video-details .deleted-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: .92;
+    position: absolute;
+    z-index: 1;
+}
+
+#video-details .deleted-overlay span {
+    color: #A82A2A !important;
+}
+
+#video-details .deleted-overlay h4 {
+    color: #A82A2A !important;
+}
+
+#video-details .truncate {
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

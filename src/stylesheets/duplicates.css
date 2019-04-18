@@ -1,0 +1,23 @@
+#duplicates {
+    height: calc(95vh - 20px - 27px);
+    overflow-y: scroll;
+}
+
+#duplicates .duplicate-info-container {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 50px;
+}
+
+#duplicates .duplicate-info-container .pt-control.pt-checkbox {
+    float: left;
+}
+
+#duplicates .duplicate-info-container img {
+    height: 50px;
+}
+
+.duplicate-info-container.selected {
+    background-color: #FF7373;
+}

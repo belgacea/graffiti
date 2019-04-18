@@ -1,0 +1,17 @@
+footer {
+    background-color: #394B59;
+    height: 20px;
+    width: 100%;
+    bottom: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: white;
+    font-weight: 100;
+    position: fixed;
+    z-index: 2;
+}
+
+footer .video-count {
+    position: fixed;
+    right: 0;
+}

@@ -1,0 +1,49 @@
+
+.suggestiveinput-container {
+    position: relative;
+}
+
+.suggestiveinput-suggestion-container {
+    position: absolute;
+    width: 100%;
+    /* display: none; */
+}
+
+.suggestiveinput-suggestion-container .pt-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.pt-tag-input {
+    overflow-y: auto;
+    max-height: 120px;
+    min-height: 30px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-items: center;
+    align-items: center;
+    cursor: text;
+    height: auto;
+    padding: 5px 3px 0 0;
+}
+
+.pt-tag-input .pt-tag {
+    margin: 0 0 5px 5px;
+    /* overflow-wrap: break-word; */
+}
+.pt-input-ghost {
+    padding: 0 5px;
+    border: none;
+    box-shadow: none;
+    background: none;
+    flex: 1 1 auto;
+    margin-bottom: 5px;
+    width: 100px;
+    line-height: 20px;
+}
+
+.pt-input-ghost:focus {
+    outline: rgba(255, 255, 255, 1) auto 2px;
+}

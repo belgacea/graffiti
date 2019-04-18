@@ -1,0 +1,54 @@
+
+#settings {
+    width: 700px;
+    height: 500px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+#watched-folders table {
+    width: 100%;
+}
+
+#watched-folders .list {
+    border: gray 1px solid;
+    margin-top: 5px;
+    height: 350px;
+    padding: 5px;
+    overflow-y: auto;
+    margin-bottom: 5px;
+}
+
+#watched-folders .folder {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #EBF1F5;
+    margin-bottom: 5px;
+}
+
+#watched-folders .folder .path {
+    margin-left: 5px;
+}
+
+#settings .background-screenshots {
+    margin-bottom: 8px;
+}
+
+#settings #menu {
+    width: 150px;
+    height: 100%;
+    float: left;
+}
+
+#settings #active-settings {
+    margin-left: 200px;
+}
+
+#watched-folders .auto-update {
+    float: right;
+    margin-top: 6px;
+}

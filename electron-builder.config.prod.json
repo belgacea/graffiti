@@ -1,0 +1,25 @@
+{
+    "appId": "net.jamlabs.graffiti",
+    "productName": "Graffiti",
+    "directories": {
+      "app": "dist/app"
+    },
+    "files": ["node_modules", "*.js", "*.html"],
+    "extraFiles": ["extras"],
+    "copyright": "2019 Jamel AIT",
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico",
+      "files": [
+        "!node_modules/ffmpeg-static/bin/darwin${/*}",
+        "!node_modules/ffmpeg-static/bin/linux${/*}",
+        "!node_modules/ffprobe-static/bin/darwin${/*}",
+        "!node_modules/ffprobe-static/bin/linux${/*}"
+      ],
+      "publish": [{
+        "provider": "github",
+        "owner": "jamelait",
+        "repo": "graffiti"
+      }]
+    }
+  }

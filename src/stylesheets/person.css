@@ -1,0 +1,149 @@
+
+.btn-circle-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    border: dashed 1px gray;
+    height: 60px;
+    width: 60px;
+}
+
+#video-details .btn-circle-add {
+    color: gray;
+    font-size: 35px;
+	width: 80px;
+	height: 80px;
+    margin-left: 3px;
+}
+
+.person-circle {
+    border: dashed 1px gray;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    -webkit-border-radius: 30px; /* Saf3+, Chrome */
+    border-radius: 30px; /* Opera 10.5, IE 9 */
+}
+
+.person-circle img {
+    text-align: center;
+    display:block;
+    margin: 0 auto 0 auto;
+    width: 58px;
+	height: 58px;
+    -webkit-border-radius: 30px; /* Saf3+, Chrome */
+    border-radius: 30px; /* Opera 10.5, IE 9 */
+}
+
+#video-details .person-circle img,
+#person-details .person-circle img {
+	width: 138px;
+	height: 138px;
+    -webkit-border-radius: 70px; /* Saf3+, Chrome */
+    border-radius: 70px; /* Opera 10.5, IE 9 */
+}
+
+#video-details .person-circle {
+    float: left;
+    margin-left: 3px;
+}
+
+#video-details .people {
+    margin-bottom: 5px;
+    margin-left: 10px;
+    display: flex;
+    overflow: auto;
+}
+
+.person-circle .icon-no-photo {
+    text-align: center;
+    display:block;
+    margin: 0 auto 0 auto;
+}
+
+#video-details .person-circle .icon-no-photo {
+    font-size: 60px;
+    line-height: 140px;
+    color: #E1E8ED;
+}
+
+.suggestiveinput-container .person-circle {
+    float: left;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+}
+
+.suggestiveinput-container .person-circle img {
+    width: 28px;
+    height: 28px;
+    border-radius: 15px;
+}
+
+.suggestiveinput-container span.name {
+    margin-left: 5px;
+    line-height: 30px;
+    font-weight: 500;
+}
+
+.person-circle .pt-popover-target {
+    display: inline;
+}
+
+.delete-photo {
+    float: right;
+}
+
+.person-circle.small {
+    width: 60px !important;
+    height: 60px !important;
+}
+
+.person-circle.small img {
+    width: 58px !important;
+    height: 58px !important;
+}
+
+.person-circle.small .icon-no-photo {
+    font-size: 30px !important;
+    line-height: 60px !important;
+}
+
+.person-circle.medium {
+    width: 80px !important;
+    height: 80px !important;
+    /* min-width: 140px;
+    min-height: 140px; */
+	-webkit-border-radius: 40px;
+    border-radius: 40px;
+}
+
+.person-circle.medium img {
+    width: 78px !important;
+    height: 78px !important;
+}
+
+.person-circle.medium .icon-no-photo {
+    font-size: 40px !important;
+    line-height: 80px !important;
+}
+
+.other-people {
+    padding-left: 10px;
+}
+
+.other-people .person-circle {
+    float:left;
+}
+
+#person-details .tags {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+#person-details .tags .pt-tag {
+    background: #182026;
+}
