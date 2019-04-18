@@ -8,7 +8,7 @@ export default class Router {
                           VideoDetails: 'GET /video-details/:videoId',
                           Settings: 'GET /settings',
                           PersonDetails: 'GET /person-details/:personId',
-                          SearchResults: 'GET /search-results',
+                          SearchResults: 'GET /search-results/:searchId',
                           Duplicates: 'GET /duplicates',
                           CleanUp: 'GET /clean-up',
                           Test: 'GET /test'
@@ -16,9 +16,7 @@ export default class Router {
         }
 
         public static parse(route:string):{name:string, options:any} {
-                route = route.replace('#/', '');
-                route = route.substr(0, route.indexOf('/'));
-                return this.Routes.lookup(route);
+                return this.Routes.lookup(route.replace('#/', ''));
         }
 
         public static to = {
