@@ -20,7 +20,7 @@
     "webpack-prod": "webpack --config webpack.config.prod.js --progress --profile --colors",
     "webpack-uat": "webpack --config webpack.config.uat.js --progress --profile --colors",
     "build-uat": "yarn webpack-uat && yarn dist32",
-    "build-prod": "yarn webpack-prod && yarn dist",
+    "build-prod": "yarn webpack-prod && build --ia32 --x64 --config electron-builder.config.prod.json",
     "clean": "rmdir /S /Q \"./dist/app\""
   },
   "keywords": [],
