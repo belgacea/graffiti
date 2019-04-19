@@ -1,5 +1,6 @@
 const async = require('async')
 const nedb = require('nedb')
+const config = require('../config.test.json');
 
 describe('Async', function() {
     it('async.parallel', function(done) {
@@ -68,7 +69,7 @@ describe('Async', function() {
 describe('nedb', function() {
     this.timeout(1000*60*10);
     it('nedb.find.id', function(done) {
-        const filepath = 'A:\\graffiti-db.grf'
+        const filepath = config.appSettings.DatabasePath
         let db = new nedb({ filename: filepath, autoload: true, timestampData: true })
         console.time(); // TODO: https://nodejs.org/api/perf_hooks.html#perf_hooks_performance_now
         db.findOne({ _id: 'hTS4fct56J0x85uw'}, function(err, doc) {

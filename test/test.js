@@ -9,15 +9,16 @@
 // //   });
 // // });
 const Path = require('path');
+const config = require('../config.test.json');
 
-// const workspace = 'A:\\test-graffiti';
+// const workspace = config.Drive
 // global.appSettings = {
 //   ThumbnailFolder: Path.join(workspace, '/thumbnails_test'),
 //   PictureFolder: Path.join(workspace, '/pictures_test'),
 //   DatabasePath: Path.join(workspace, 'graffiti-db-test.grf'),
 //   ErrorLogPath: Path.join(workspace, 'errorlog.grf'),
 //   WatchedFolders: [
-//       'A:\\videos\\a',
+//       config.Drive,
 //     ]
 // };
 

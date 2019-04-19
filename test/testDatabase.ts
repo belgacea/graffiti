@@ -3,9 +3,10 @@ import * as fs from 'fs'
 import * as Database from '../src/main/Database'
 import AppSettings from '../src/types/AppSettings'
 import Video from '../src/types/Video'
+const config = require('../config.test.json');
 
 function setup() {
-    const dbPath = 'A:\\graffiti-db-test.grf'
+    const dbPath = config.DatabasePath
     fs.unlinkSync(dbPath)
     Database.createOrOpen({
         DatabasePath: dbPath

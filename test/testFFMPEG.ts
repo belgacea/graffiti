@@ -5,6 +5,7 @@ const moment = require('moment');
 const fs = require('fs');
 const path = require('path');
 require("moment-duration-format");
+const config = require('../config.test.json');
 
 describe('FFMPEG-Metadata', function() {
     it('should not be undefined', function(done) {
@@ -39,7 +40,7 @@ describe('Screenshot: alternative', function() {
         const ratio = { width: 250, height: 140 };
         let video:any = {};
         
-        video.screenshotsFolder = "A:\\test-graffiti\\thumbnails_test";
+        video.screenshotsFolder = config.appSettings.ThumbnailFolder;
         
         // ScreenshotEngine.makeOneScreenshot(video, ratio, 0, (err, video) => {
         // ScreenshotEngine.initScreenshot(video, (err, video) => {
@@ -90,7 +91,7 @@ function errorScreenshot(videoPath, callback) {
         count: 1,
         timemarks: ['00:00:25'],
         filename: 'screenshot.jpg',
-        folder: 'A:/THUMBS_TEST'
+        folder: config.appSettings.ThumbnailFolder
     })
     .complexFilter([])
 }

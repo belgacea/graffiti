@@ -2,8 +2,8 @@ const Path = require('path');
 const fs = require('fs');
 const exec = require('child_process').exec;
 const Database = require('../../src/main/Database');
-const dbFilepath = 'A:\\temp.grf'
-
+const config = require('../../config.test.json');
+const dbFilepath = config.DatabasePath
 
 describe('EnsureThumbNotOnHdd', function () {
     this.timeout(1000 * 60 * 60 * 24); // 24 hours

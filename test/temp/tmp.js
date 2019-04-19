@@ -1,21 +1,21 @@
+const config = require('../../config.test.json');
 
 describe('Util_tmp', function() {
     this.timeout(1000*60*30);
     it('Util_Duplicates', function(done) {
-        const filepath = 'A:\\graffiti-db.grf'
-        // const filepath = 'A:\\graffiti-db_duplicates.grf.txt'
+        const filepath = config.DatabasePath
         const db = new Datastore({ filename: filepath, autoload: true, timestampData: true });
         console.log('Gettings videos...')
         db.find({type: 'video'}, function(err, docs) {
             console.log('Looking for duplicates in', docs.length, 'videos...')
-            Util.findDuplicates(docs, 'A:\\duplicates.txt')    
+            Util.findDuplicates(docs, config.OutputFolder + 'duplicates.txt')    
             done();
         });
     })
 
     it('Util_deletenotfound', function(done) {
-        const outputPath = 'A:\\test\\VideosNotFound.txt';
-        const filepath = 'A:\\graffiti-db.grf'
+        const outputPath = config.OutputFolder + 'VideosNotFound.txt';
+        const filepath = config.DatabasePath
         const db = new Datastore({ filename: filepath, autoload: true, timestampData: true });
         console.log('Gettings videos...')
         db.find({type: 'video'}, function(err, docs) {

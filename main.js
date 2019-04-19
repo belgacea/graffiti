@@ -8,6 +8,7 @@ const Helper = require('./src/common/Helper');
 const Analytics = require('./src/common/Analytics');
 const IpcEvents = require('./src/common/Constants').IpcEvents
 const { autoUpdater } = require('electron-updater');
+const config = require('./config.dev.json');
 
 const workspace = Path.join(app.getPath('userData'), 'workspace');
 
@@ -139,12 +140,7 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 if (Helper.env.isDev()) {
-  appSettings = {
-    ThumbnailFolder: 'A:/GRAFFITI_THUMBS',
-    PictureFolder: 'A:/GRAFFITI_PICTURES',
-    DatabasePath: 'A:/graffiti-db.grf',
-    ErrorLogPath: 'A:/errorlog.grf'
-  };
+  appSettings = config.appSettings;
 }
 else {
   appSettings = {

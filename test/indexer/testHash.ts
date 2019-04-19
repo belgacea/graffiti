@@ -8,6 +8,7 @@ import * as Datastore from 'nedb'
 import Crawler from '../../src/background/Crawler'
 import Video from '../../src/types/Video';
 import TestCore from '../TestCore';
+const config = require('../../config.test.json');
 
 describe('Hash_CompareTwo', function () {
     this.timeout(1000 * 60 * 10);
@@ -55,7 +56,7 @@ describe('Hash_export', function () {
     this.timeout(1000 * 60 * 10);
     it('should export hash into file', function (done) {
 
-        const outputDir = 'A:\\export';
+        const outputDir = config.OutputFolder;
         const folder = "";
         const filePaths = [
             // Path.join(folder, ''),
@@ -73,14 +74,11 @@ describe('Hash_export', function () {
 describe('Hash_all_export', function () {
     this.timeout(1000 * 60 * 240);
     it('should export all hashes into file', function (done) {
-        const outputDir = 'A:\\';
+        const outputDir = config.Drive;
 
         Util.createFolderSync(outputDir);
 
-        const folders = [
-            'A:\\input'
-        ];
-        new Crawler([]).getVideosAsync(folders)
+        new Crawler([]).getVideosAsync([config.InputFolder])
             .catch(err => console.error('getVideosAsync threw an error', err))
             .then((videos: Video[]) => {
                 console.log('In Hash_all_export videos.length', videos.length);
@@ -118,18 +116,18 @@ describe('Hash_refresh', function() {
             });
           }
 
-        const filepath = 'A:\\graffiti-db.grf'
+        const filepath = config.DatabasePath
         const db = new Datastore({ filename: filepath, autoload: true, timestampData: true });
         console.log('Gettings videos...')
         db.find({type: 'video'}, function(err, docs) {
             console.log('Refreshing hash for', docs.length, 'videos...')
             TestCore.refreshHash(docs, (videos, textResult, errorResult) => {
                 console.log(videos.length, 'in total hash refreshed')
-                fs.writeFile('A:\\hash_change_result.txt', `${textResult}`, (err) => {
+                fs.writeFile(config.Drive + 'hash_change_result.txt', `${textResult}`, (err) => {
                     if (err)
                         throw err;
                 });
-                fs.writeFile('A:\\hash_error_result.txt', `${errorResult}`, (err) => {
+                fs.writeFile(config.Drive + 'hash_error_result.txt', `${errorResult}`, (err) => {
                     if (err)
                         throw err;
                 });

@@ -16,7 +16,7 @@ describe('Util', function() {
         console.time('test')
         this.timeout(1000*60*10);
         const folders = [
-            // 'A:\\',
+            
         ]
         new Crawler([]).getVideosAsync(folders)
             .catch(err => console.error('getVideosAsync threw an error', err))

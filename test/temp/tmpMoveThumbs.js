@@ -2,12 +2,8 @@ const Path = require('path');
 const fs = require('fs');
 const exec = require('child_process').exec;
 const Database = require('../../src/main/Database');
-const dbFilepath = 'A:\\graffiti-db.grf'
-// const newThumbnailFolder = 'A:\\graffiti\\GRAFFITI_THUMBS';
-// const newPictureFolder = 'A:\\graffiti\\GRAFFITI_PICTURES'
-// const newThumbnailFolder = 'A:\\graffiti\\thumbnails';
-// const newPictureFolder = 'A:\\graffiti\\pictures'
-
+const config = require('../../config.test.json');
+const dbFilepath = config.DatabasePath
 var count = 0;
 
 const mkdirSync = function (dirPath) {
