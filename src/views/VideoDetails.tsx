@@ -317,16 +317,11 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
             for (let i = 0; i < crumbs.length - 1; i++) {
                 incrementalPath += crumbs[i] + separator;
                 let currentPath = incrementalPath;
-                breadcrumbs.push(<li key={'crumb' + i}><a className="pt-breadcrumb" onClick={() => this.handleExploreFolder(currentPath)}>{crumbs[i]}</a></li>)
+                breadcrumbs.push(<li key={'crumb' + i}><a className="bp3-breadcrumb" onClick={() => this.handleExploreFolder(currentPath)}>{crumbs[i]}</a></li>)
             }
         }
         return (
-            <ul className="pt-breadcrumbs">
-                {/* <li><a className="pt-breadcrumbs-collapsed" href="#"></a></li>
-                <li><a className="pt-breadcrumb pt-disabled">Folder one</a></li>
-                <li><a className="pt-breadcrumb" href="#">Folder two</a></li>
-                <li><a className="pt-breadcrumb" href="#">Folder three</a></li>
-                <li><span className="pt-breadcrumb pt-breadcrumb-current">File</span></li> */}
+            <ul className="bp3-breadcrumbs">
                 {breadcrumbs}
             </ul>
         )

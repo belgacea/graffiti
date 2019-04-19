@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from 'react-redux'
 import { ipcRenderer } from 'electron';
 import * as _ from 'lodash'
-import { Icon } from '@blueprintjs/core';
+import { Icon, InputGroup, Button } from '@blueprintjs/core';
 import * as ReactList from 'react-list';
 
 import * as myActions from '../redux/Actions'
@@ -135,10 +135,13 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
                     </div>
                     <Icon icon='plus' className='btn-circle-add' onClick={this.props.openCreatePersonModal} />
                     <div className='search-area pt-dark'>
-                        <input id='search-people' className="pt-input" type="text" dir="auto" placeholder="Filter"
-                            onChange={this.handleChange}
-                            value={this.state.search} />
-                        <button className="pt-button pt-minimal cross" onClick={this.onClear}></button>
+                        <div className="search-area-input">
+                            <InputGroup id='search-people' placeholder="Filter"
+                                className='bp3-dark'
+                                onChange={this.handleChange}
+                                value={this.state.search} />
+                            <Button icon='cross' minimal={true} onClick={this.onClear} />
+                        </div>
                         <span className="people-count">Total: {this.state.people.length}</span>
                     </div>
                 </div>

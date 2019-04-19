@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ipcRenderer } from 'electron';
 
-import { ProgressBar, Checkbox } from '@blueprintjs/core';
+import { ProgressBar, Checkbox, Button, Intent, InputGroup, Card, Elevation } from '@blueprintjs/core';
 
 import WatchedFolders from '../components/WatchedFolders';
 import AppSettings from '../types/AppSettings';
@@ -160,24 +160,20 @@ export default class FirstStart extends React.Component<IFirstStateProps, IFirst
         }
 
         return (
-            <div id='first-start' className="pt-card">
-                { /* <h5></h5> */ }
-                { /* <p></p> */ }
+            <div id='first-start'>
                 { divStep }
                 {
                     this.state.step > 1 && this.state.step < 3 ?
-                    <button type="button" disabled={!canGoNext} className="pt-button previous" onClick={ this.previousStep }>
-                        <span className="standard arrow-left"></span>
+                    <Button icon='arrow-left' disabled={!canGoNext} className="previous" onClick={ this.previousStep }>
                         Previous
-                    </button>
+                    </Button>
                 : null
                 }
                 {
                     this.state.step < 3 ?
-                        <button type="button" disabled={!canGoNext} className="pt-button pt-intent-success next" onClick={ this.nextStep }>
+                        <Button intent={Intent.SUCCESS} rightIcon='arrow-right' disabled={!canGoNext} className="next" onClick={ this.nextStep }>
                             Next
-                            <span className="standard arrow-right pt-align-right"></span>
-                        </button>
+                        </Button>
                     : null
                 }
             </div>
@@ -209,14 +205,14 @@ export default class FirstStart extends React.Component<IFirstStateProps, IFirst
             <div>
                 <span>Where do you want save the screenshots?</span>
                 <br/>
-                <input className="pt-input thumbnail-folder" type="text" value={this.state.thumbnailFolder} onChange={this.handleThumbnailFolderChanged.bind(this)} dir="auto" />
-                <button type="button" className="pt-button add" onClick={this.selectThumbnailFolder.bind(this)}>Browse</button>
+                <InputGroup className="thumbnail-folder" value={this.state.thumbnailFolder} onChange={this.handleThumbnailFolderChanged.bind(this)} />
+                <Button icon='add' className="browse-button" onClick={this.selectThumbnailFolder.bind(this)}>Browse</Button>
                 <br/>
                 <br/>
                 <span>Where do you want save the people's pictures?</span>
                 <br/>
-                <input className="pt-input thumbnail-folder" type="text" value={this.state.pictureFolder} onChange={this.handlePictureFolderChanged} dir="auto" />
-                <button type="button" className="pt-button add" onClick={this.selectPictureFolder.bind(this)}>Browse</button>
+                <InputGroup className="thumbnail-folder" value={this.state.pictureFolder} onChange={this.handlePictureFolderChanged} />
+                <Button icon='add' className="browse-button" onClick={this.selectPictureFolder.bind(this)}>Browse</Button>
                 <br/>
             </div>
         );

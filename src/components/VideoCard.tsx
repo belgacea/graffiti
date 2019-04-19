@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Icon, Popover, PopoverInteractionKind, Tooltip, Position, Button, Intent } from '@blueprintjs/core';
+import { Icon, Popover, PopoverInteractionKind, Tooltip, Position, Button, Intent, Elevation, Card } from '@blueprintjs/core';
 
 import Router from '../core/Router'
 import Video from '../types/Video';
@@ -91,20 +91,20 @@ export default class VideoCard extends React.Component<IVideoCardProps, IVideoCa
             //     position={Position.BOTTOM}
             //     content={this.renderPopoverContent()}
             // >
-            <Tooltip content={ video.getName() } position={Position.TOP_LEFT}>
-                <div className="pt-card pt-elevation-0 pt-interactive video-card" 
+                <Card className="video-card" interactive={true} elevation={Elevation.TWO}
                     onMouseEnter={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}
                      onClick={ this.handleClick }>
+            <Tooltip className="" content={ video.getName() } position={Position.TOP_LEFT}>
                     {
                         screen && !hasError ?
                         <img src={ screen }
                             onError={ this.handleError }  />
                         :
-                        <Icon icon='media' className='no-image' />
+                        <Icon icon='media' className='no-image' iconSize={50} />
                     }
-                </div>
             </Tooltip>
+                </Card>
             // </Popover>
         );
     }

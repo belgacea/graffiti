@@ -109,14 +109,22 @@
 }
 
 #people-bar #search-people {
-    width: calc(100% - 60px - 30px - 5px); /* full bar width - btn-circle-add - btn-clear - margin*/
-    margin-left: 5px;
+    /*width: calc(100% - 60px - 30px - 5px);*/ /* full bar width - btn-circle-add - btn-clear - margin*/
+    /* margin-left: 5px; */
+    display: inline-flex;
+    padding-right: 55px !important;
 }
 
 #people-bar .people-count {
-    float: right;
+    float: left;
     font-style: italic;
     color: white;
     font-size: small;
-    margin-right: 30px;
+    /* margin-right: 30px; */
+    margin-left: 5px;
+}
+
+#people-bar .search-area-input {
+    display: inline-flex;
+    margin-left: 5px;
 }
