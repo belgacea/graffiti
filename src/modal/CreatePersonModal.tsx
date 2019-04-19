@@ -1,5 +1,6 @@
 import * as React from "react";
 // import * as Dropzone from 'react-dropzone'
+// import Dropzone from 'react-dropzone'
 import { Dialog, Button, Intent, Checkbox } from "@blueprintjs/core";
 import Persistence from '../core/Persistence';
 import Person from '../types/Person';
@@ -23,8 +24,8 @@ interface ICreatePersonModalState {
 
 export default class CreatePersonModal extends React.Component<ICreatePersonModalProps, ICreatePersonModalState> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
     this.state = {
       shouldMatchVideos: true
     }
@@ -71,7 +72,7 @@ export default class CreatePersonModal extends React.Component<ICreatePersonModa
   render() {
     return (
       <Dialog
-        iconName="person"
+        icon="person"
         isOpen={this.props.isOpen}
         onClose={this.props.onClose}
         title="New">

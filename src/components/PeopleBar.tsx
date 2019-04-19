@@ -121,7 +121,7 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
 
     render() {
         const { people, isExpanded } = this.state;
-        const expandCollapseIconName = isExpanded ? 'pt-icon-double-chevron-left' : 'pt-icon-double-chevron-right';
+        const expandCollapseIconName = isExpanded ? 'double-chevron-left' : 'double-chevron-right';
         const confirmButtonText = this.state.deleteConfirmationData ? 'Delete "' + this.state.deleteConfirmationData.name + '"' : '';
         const alphabet = [...'abcdefghijklmnopqrstuvwxyz'.toUpperCase()].map(letter => 
             <span className='letter' key={'letter' + letter} onClick={ () => this.onLetterClicked(letter) }>{letter}</span>
@@ -131,14 +131,14 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
             <div id="people-bar" className={isExpanded ? 'expanded' : ''}>
                 <div className="people-bar-actions">
                     <div className='top-buttons'>
-                        <Icon iconName={expandCollapseIconName} className='expand-collapse' onClick={this.expandCollapse} />
+                        <Icon icon={expandCollapseIconName} className='expand-collapse' onClick={this.expandCollapse} />
                     </div>
-                    <Icon iconName='pt-icon-plus' className='btn-circle-add' onClick={this.props.openCreatePersonModal} />
+                    <Icon icon='plus' className='btn-circle-add' onClick={this.props.openCreatePersonModal} />
                     <div className='search-area pt-dark'>
                         <input id='search-people' className="pt-input" type="text" dir="auto" placeholder="Filter"
                             onChange={this.handleChange}
                             value={this.state.search} />
-                        <button className="pt-button pt-minimal pt-icon-cross" onClick={this.onClear}></button>
+                        <button className="pt-button pt-minimal cross" onClick={this.onClear}></button>
                         <span className="people-count">Total: {this.state.people.length}</span>
                     </div>
                 </div>

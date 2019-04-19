@@ -22,8 +22,8 @@ export default class VideoCard extends React.Component<IVideoCardProps, IVideoCa
     private static dynamicThumbnailEnabled = true;
     private timer;
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
         this.state = {
             hasError: false
         }
@@ -101,7 +101,7 @@ export default class VideoCard extends React.Component<IVideoCardProps, IVideoCa
                         <img src={ screen }
                             onError={ this.handleError }  />
                         :
-                        <Icon iconName='pt-icon-media' className='no-image' />
+                        <Icon icon='media' className='no-image' />
                     }
                 </div>
             </Tooltip>

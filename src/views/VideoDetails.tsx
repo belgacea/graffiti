@@ -228,30 +228,30 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
         return (
             <Menu>
                 <MenuItem
-                    iconName="pt-icon-folder-open"
+                    icon="folder-open"
                     onClick={this.handleOpenContainingFolder}
                     text="Open containing folder"
                 />
                 <MenuItem
-                    iconName="pt-icon-media"
+                    icon="media"
                     onClick={this.handleMakeScreenshots}
                     text="Make screenshots"
                 />
                 <MenuItem
-                    iconName="pt-icon-annotation"
+                    icon="annotation"
                     onClick={this.handleRename}
                     text="Rename"
                 />
                 {
                     this.props.video.deleted ?
                         <MenuItem
-                            iconName="pt-icon-trash"
+                            icon="trash"
                             onClick={this.restore}
                             text="Restore"
                         />
                         :
                         <MenuItem
-                            iconName="pt-icon-trash"
+                            icon="trash"
                             onClick={this.recycle}
                             text="Remove"
                         />
@@ -259,7 +259,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
             </Menu>
         );
         // <MenuDivider />
-        // <MenuItem text="Settings..." iconName="cog" />
+        // <MenuItem text="Settings..." icon="cog" />
     }
 
     renderTags() {
@@ -298,7 +298,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
                 {
                     video.deleted ?
                         <Tooltip content='This file is marked as deleted' position={Position.RIGHT}>
-                            <Icon iconName="pt-icon-trash" className='file-status-icon' style={{ color: '#A82A2A' }} />
+                            <Icon icon="trash" className='file-status-icon' style={{ color: '#A82A2A' }} />
                         </Tooltip>
                         : null
                 }
@@ -332,13 +332,13 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
         )
     }
 
-    private handleMakeScreenshots = (e: React.MouseEvent<HTMLDivElement>) => {
+    private handleMakeScreenshots = (e: React.MouseEvent<HTMLAnchorElement>) => {
         ToastHelper.info('Making screenshots...')
         console.log('VideoDetails: sending', IpcEvents.Background.ScreenshotsOneVideo, this.props.video)
         ipcRenderer.send(IpcEvents.Background.ScreenshotsOneVideo, this.props.video);
     }
 
-    private handleOpenContainingFolder = (e: React.MouseEvent<HTMLDivElement>) => {
+    private handleOpenContainingFolder = (e: React.MouseEvent<HTMLAnchorElement>) => {
         ipcRenderer.send(IpcEvents.Video.OpenContainingFolder, this.props.video.path)
     }
 
@@ -348,10 +348,10 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
 
     private renderDeletedOverlay() {
         return (
-            // visual='pt-icon-cross'
+            // visual='cross'
             <div className='deleted-overlay' style={{ display: 'none' }}>
                 <NonIdealState
-                    visual='pt-icon-trash'
+                    icon='trash'
                     title='This video is removed'
                 />
             </div>
@@ -368,24 +368,24 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
             return (
                 <div id="video-details">
                     <div className="navigation">
-                        <Icon className={'fav' + favClass} iconName='pt-icon-bookmark' onClick={ this.markFavorite }/>
-                        <Button className='previous pt-small' iconName='arrow-left' disabled={!previousVideoId} onClick={this.previous}>Previous</Button>
+                        <Icon className={'fav' + favClass} icon='bookmark' onClick={ this.markFavorite }/>
+                        <Button className='previous pt-small' icon='arrow-left' disabled={!previousVideoId} onClick={this.previous}>Previous</Button>
                         <Tooltip content={video.path} position={Position.BOTTOM_LEFT} className='truncate'>
                             <span className='title' onClick={this.handleOpenContainingFolder}>{video.getName(true)}</span>
                         </Tooltip>
-                        <Button className='next pt-small' rightIconName='arrow-right' disabled={!nextVideoId} onClick={this.next}>Next</Button>
+                        <Button className='next pt-small' rightIcon='arrow-right' disabled={!nextVideoId} onClick={this.next}>Next</Button>
                     </div>
                     {video.deleted ? this.renderDeletedOverlay() : null}
                     {videoPath ? this.renderFileInfo() : null}
                     <div className='buttons'>
-                        <Icon className='play video-action' iconName='pt-icon-play' onClick={this.play} />
-                        {/* <Icon className={'fav video-action' + favClass} iconName='pt-icon-bookmark' onClick={ this.markFavorite }/> */}
+                        <Icon className='play video-action' icon='play' onClick={this.play} />
+                        {/* <Icon className={'fav video-action' + favClass} icon='bookmark' onClick={ this.markFavorite }/> */}
                         <Popover
                             interactionKind={PopoverInteractionKind.CLICK}
                             popoverClassName="pt-popover-content-sizing"
                             position={Position.BOTTOM_RIGHT}
                             content={this.renderPopoverContent()}>
-                            <Icon className='more video-action' iconName='pt-icon-more' />
+                            <Icon className='more video-action' icon='more' />
                         </Popover>
                     </div>
                     <div className="video-info">
@@ -401,7 +401,7 @@ class VideoDetails extends React.Component<IVideoDetailsProps, IVideoDetailsStat
 
                     <div className='people'>
                         {peopleElements}
-                        <div><Icon iconName='pt-icon-new-person' className='btn-circle-add' onClick={this.openAttachPersonModal} /></div>
+                        <div><Icon icon='new-person' className='btn-circle-add' onClick={this.openAttachPersonModal} /></div>
                     </div>
                     <div className='screenshots'>
                         {screenshotElements}

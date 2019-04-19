@@ -20,8 +20,8 @@ interface IVideoListState {
 class VideoList extends React.Component<IVideoListProps, IVideoListState> {
     public static scrollY:number = 0;
     
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
         // this.state = {
         //     videos: []
         // };

@@ -30,8 +30,8 @@ interface IFirstStateProps {
 
 export default class FirstStart extends React.Component<IFirstStateProps, IFirstStartState> {
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
 
         const appSettings:any = remote.getGlobal('appSettings');
         
@@ -167,7 +167,7 @@ export default class FirstStart extends React.Component<IFirstStateProps, IFirst
                 {
                     this.state.step > 1 && this.state.step < 3 ?
                     <button type="button" disabled={!canGoNext} className="pt-button previous" onClick={ this.previousStep }>
-                        <span className="pt-icon-standard pt-icon-arrow-left"></span>
+                        <span className="standard arrow-left"></span>
                         Previous
                     </button>
                 : null
@@ -176,7 +176,7 @@ export default class FirstStart extends React.Component<IFirstStateProps, IFirst
                     this.state.step < 3 ?
                         <button type="button" disabled={!canGoNext} className="pt-button pt-intent-success next" onClick={ this.nextStep }>
                             Next
-                            <span className="pt-icon-standard pt-icon-arrow-right pt-align-right"></span>
+                            <span className="standard arrow-right pt-align-right"></span>
                         </button>
                     : null
                 }
@@ -210,13 +210,13 @@ export default class FirstStart extends React.Component<IFirstStateProps, IFirst
                 <span>Where do you want save the screenshots?</span>
                 <br/>
                 <input className="pt-input thumbnail-folder" type="text" value={this.state.thumbnailFolder} onChange={this.handleThumbnailFolderChanged.bind(this)} dir="auto" />
-                <button type="button" className="pt-button pt-icon-add" onClick={this.selectThumbnailFolder.bind(this)}>Browse</button>
+                <button type="button" className="pt-button add" onClick={this.selectThumbnailFolder.bind(this)}>Browse</button>
                 <br/>
                 <br/>
                 <span>Where do you want save the people's pictures?</span>
                 <br/>
                 <input className="pt-input thumbnail-folder" type="text" value={this.state.pictureFolder} onChange={this.handlePictureFolderChanged} dir="auto" />
-                <button type="button" className="pt-button pt-icon-add" onClick={this.selectPictureFolder.bind(this)}>Browse</button>
+                <button type="button" className="pt-button add" onClick={this.selectPictureFolder.bind(this)}>Browse</button>
                 <br/>
             </div>
         );

@@ -57,9 +57,9 @@ export default class SelectableVideoItem extends React.Component<ISelectableVide
                 <Checkbox checked={isSelected} onChange={() => { }} />
                 <img src={selectableVideo.getMainScreen()} />
                 <FileExistenceIndicator path={selectableVideo.path} />
-                <button className="pt-button pt-minimal pt-icon-play" onClick={(e) => { this.play(selectableVideo); e.stopPropagation(); }} ></button>
-                <button className="pt-button pt-minimal pt-icon-search" onClick={(e) => { Router.to.VideoDetails(selectableVideo._id); e.stopPropagation(); }} ></button>
-                <button className="pt-button pt-minimal pt-icon-folder-open" onClick={(e) => { this.handleOpenContainingFolder(selectableVideo); e.stopPropagation(); }}></button>
+                <button className="pt-button pt-minimal play" onClick={(e) => { this.play(selectableVideo); e.stopPropagation(); }} ></button>
+                <button className="pt-button pt-minimal search" onClick={(e) => { Router.to.VideoDetails(selectableVideo._id); e.stopPropagation(); }} ></button>
+                <button className="pt-button pt-minimal folder-open" onClick={(e) => { this.handleOpenContainingFolder(selectableVideo); e.stopPropagation(); }}></button>
                 <span>{selectableVideo.path}</span>
             </div>
         );

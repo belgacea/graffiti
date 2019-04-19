@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from 'react-redux'
 import { Icon, Tooltip, Position } from '@blueprintjs/core'
 import { ContextMenuTarget, Menu, MenuItem } from '@blueprintjs/core'
+import { IconNames } from "@blueprintjs/icons";
 
 import * as myActions from '../redux/Actions'
 import Router from '../core/Router'
@@ -78,7 +79,7 @@ class PersonCircle extends React.Component<IPersonCircleProps, undefined> {
                         person.photo ?
                         <img src={ person.photo }/>
                         :
-                        <Icon iconName='pt-icon-person' className='icon-no-photo' />
+                        <Icon icon='person' className='icon-no-photo' />
                     }
                     </Tooltip>
                 </div>
@@ -92,7 +93,7 @@ class PersonCircle extends React.Component<IPersonCircleProps, undefined> {
     renderEmpty() {
         return (
             <div className='person-circle' onClick={ this.onClick.bind(this) }>
-                <Icon iconName='pt-icon-person' className='icon-no-photo' />
+                <Icon icon='person' className='icon-no-photo' />
             </div>
         );
     }

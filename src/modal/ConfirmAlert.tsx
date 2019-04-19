@@ -33,7 +33,7 @@ export default class ConfirmAlert extends React.Component<IConfirmAlertProps, un
             <Alert
                 confirmButtonText={confirmButtonText || 'Confirm'}
                 cancelButtonText="Cancel"
-                iconName="trash"
+                icon="trash"
                 intent={Intent.DANGER}
                 isOpen={isOpen}
                 onCancel={handleCancel}

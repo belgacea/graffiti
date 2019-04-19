@@ -1,4 +1,5 @@
 import * as React from "react";
+// import * as Dropzone from 'react-dropzone'
 import * as _ from 'lodash'
 import { ipcRenderer } from 'electron';
 import { Dialog, Button, Intent } from '@blueprintjs/core';
@@ -6,6 +7,7 @@ import { connect } from 'react-redux'
 import { IpcEvents } from '../common/Constants.js'
 
 import Persistence from '../core/Persistence';
+import Video from '../types/Video';
 import Person from '../types/Person';
 import SuggestiveInput from '../components/SuggestiveInput'
 import PersonCircle from '../components/PersonCircle'
@@ -41,6 +43,7 @@ class AttachPeopleModal extends React.Component<IAttachPeopleModalProps, IAttach
   }
   
   save = () => {
+    console.warn('TODO: add feature: create people from here and add their photo')
     const { people } = this.state;
     const created = _.filter(people, (p) => !p._id);
     const existing = _.filter(people, (p) => !!p._id);
@@ -66,7 +69,7 @@ class AttachPeopleModal extends React.Component<IAttachPeopleModalProps, IAttach
     const people = this.state.people || []
     return (
         <Dialog
-            iconName="edit"
+            icon="edit"
             isOpen={this.props.isOpen}
             onClose={this.props.onClose}
             title="Add or remove people to this video">

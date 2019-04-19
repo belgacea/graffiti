@@ -23,8 +23,8 @@ interface IHeaderState {
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
         this.state = {
             search: ''
         };
@@ -75,24 +75,24 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <Menu>
                 <MenuItem
-                    iconName="comparison"
+                    icon="comparison"
                     onClick={() => Router.to.Duplicates()}
                     text="Duplicates"
                 />
                 <MenuItem
-                    iconName="trash"
+                    icon="trash"
                     onClick={() => Router.to.CleanUp()}
                     text="Clean up"
                 />
                 <MenuDivider />
                 <MenuItem
-                    iconName="properties"
+                    icon="properties"
                     text="Rules"
                     onClick={() => Router.to.Rules()}
                     />
                 <MenuItem
                     text="Settings"
-                    iconName="cog"
+                    icon="cog"
                     onClick={() => Router.to.Settings()}
                 />
             </Menu>
@@ -104,7 +104,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <div className="pt-navbar-group pt-align-right">
                 <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_LEFT}>
-                    <button className="pt-button pt-minimal pt-icon-history"></button>
+                    <button className="pt-button pt-minimal history"></button>
                 </Popover>
             </div>
         );
@@ -119,7 +119,7 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <div className="pt-navbar-group pt-align-left">
                 <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_RIGHT}>
-                    <button className="pt-button pt-minimal pt-icon-bookmark"></button>
+                    <button className="pt-button pt-minimal bookmark"></button>
                 </Popover>
             </div>
         );
@@ -129,23 +129,23 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <nav className="pt-navbar pt-dark">
                 <div className="pt-navbar-group pt-align-left">
-                    <button className="pt-button pt-minimal pt-icon-chevron-left" onClick={this.back}></button>
-                    {/* <Icon className='nav-button' iconName='pt-icon-chevron-left' onClick={this.back} /> */}
-                    {/* <Icon className='nav-button home' iconName='pt-icon-home' onClick={this.home} /> */}
-                    <button className="pt-button pt-minimal pt-icon-home" onClick={this.home}>Home</button>
+                    <button className="pt-button pt-minimal chevron-left" onClick={this.back}></button>
+                    {/* <Icon className='nav-button' icon='chevron-left' onClick={this.back} /> */}
+                    {/* <Icon className='nav-button home' icon='home' onClick={this.home} /> */}
+                    <button className="pt-button pt-minimal home" onClick={this.home}>Home</button>
                     <input className="pt-input" type="text" placeholder="Search" dir="auto" id='search-input'
                         onChange={this.handleChange}
                         onKeyDown={this.handleKeyDown}
                         onKeyUp={this.handleKeyUp}
                         value={this.state.search} />
-                    <button className="pt-button pt-minimal pt-icon-search" onClick={this.onSearch}></button>
+                    <button className="pt-button pt-minimal search" onClick={this.onSearch}></button>
                     { this.renderHistory() }
-                    <button className="pt-button pt-minimal pt-icon-cross" onClick={this.onClear}></button>
+                    <button className="pt-button pt-minimal cross" onClick={this.onClear}></button>
                 </div>
                 <div className="pt-navbar-group pt-align-right">
                 { this.renderBookmarks() }
                     <Popover content={this.renderMenu()} position={Position.BOTTOM_RIGHT}>
-                        <button className="pt-button pt-minimal pt-icon-menu"></button>
+                        <button className="pt-button pt-minimal menu"></button>
                     </Popover>
                 </div>
             </nav>

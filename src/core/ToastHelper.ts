@@ -11,7 +11,7 @@ export default class ToastHelper {
         ToastHelper.toasts = [];
     }
 
-    private static show(message:string, intent = Intent.NONE, unicityGroup?:string) {
+    private static show(message:string, intent: Intent, unicityGroup?:string) {
         if (unicityGroup && ToastHelper.toasts[unicityGroup]) {
             // dissmiss previous toast;
             ToastHelper.toaster.dismiss(ToastHelper.toasts[unicityGroup]);

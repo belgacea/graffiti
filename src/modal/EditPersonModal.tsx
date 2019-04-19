@@ -1,5 +1,6 @@
 import * as React from "react";
 // import * as Dropzone from 'react-dropzone'
+// import Dropzone from 'react-dropzone'
 import { Dialog, Button, Intent, Icon, Checkbox } from "@blueprintjs/core";
 import Persistence from '../core/Persistence';
 import Person from '../types/Person';
@@ -37,8 +38,8 @@ interface IEditPersonModalState {
 
 class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPersonModalState> {
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
         this.state = {
             name: '',
             photo: null,
@@ -119,13 +120,13 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
         const { name, photo } = this.state;
         return (
             <Dialog
-                iconName="person"
+                icon="person"
                 isOpen={isOpen}
                 onClose={this.props.closeEditPersonModal}
                 title="Edit">
                 <div className="pt-dialog-body" id='create-person'>
                     {/* <Dropzone onDrop={this.onDrop} className='drop-image-person'> */}
-                        {/* { photo ? <Icon iconName='pt-icon-delete' className='delete-photo' onClick={ this.handleDeletePhoto }/> : null } */}
+                        {/* { photo ? <Icon icon='delete' className='delete-photo' onClick={ this.handleDeletePhoto }/> : null } */}
                         {/* {photo ? <img src={photo} className='dropped-image' /> : null} */}
                     {/* </Dropzone> */}
                     <div className="right">

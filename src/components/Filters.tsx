@@ -2,7 +2,7 @@ import * as React from "react"
 import { connect } from 'react-redux'
 import Video from "../types/Video";
 import * as _ from 'lodash'
-import { Button, Intent, Tab2, Tabs2, Tag } from '@blueprintjs/core';
+import { Button, Intent, Tab, Tabs, Tag } from '@blueprintjs/core';
 import IState from "../types/IState";
 import Person from "../types/Person";
 import PersonStore from "../store/PersonStore";
@@ -31,8 +31,8 @@ interface IFiltersState {
 
 class Filters extends React.Component<IFiltersProps, IFiltersState> {
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
         this.state = {
             activeTab: '',
             selectedTags: [],
@@ -82,11 +82,11 @@ class Filters extends React.Component<IFiltersProps, IFiltersState> {
 
     render() {
         return (
-            <Tabs2 id="tab-filters" className='filters' renderActiveTabPanelOnly={true} onChange={(newTabId: string, prevTabId: string) => this.setState({ activeTab: newTabId })}>
-                <Tab2 id={'filter-tags'} title="Tags" panel={this.renderFilterTags()} />
-                <Tab2 id={'filter-people'} title="People" panel={this.renderFilterPeople()} />
-                <Tabs2.Expander />
-            </Tabs2>
+            <Tabs id="tab-filters" className='filters' renderActiveTabPanelOnly={true} onChange={(newTabId: string, prevTabId: string) => this.setState({ activeTab: newTabId })}>
+                <Tab id={'filter-tags'} title="Tags" panel={this.renderFilterTags()} />
+                <Tab id={'filter-people'} title="People" panel={this.renderFilterPeople()} />
+                <Tabs.Expander />
+            </Tabs>
         )
     }
 
