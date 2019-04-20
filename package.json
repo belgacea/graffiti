@@ -1,7 +1,7 @@
 {
   "name": "graffiti",
   "productName": "Graffiti",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Graffiti - Video manager",
   "main": "main.js",
   "scripts": {
