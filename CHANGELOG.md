@@ -16,11 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Dynamic thumbnail preview
 
 - Improvements
-    - Search
 
 - Bug fixes
-    - Search
     - File existence indicator
+
+## [0.0.2] - 2019-04-20
+### Changed
+- Bug fixes on search and improvement
 
 ## [0.0.1] - 2018-06-24
 ### Added
@@ -31,4 +33,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Thumbnail and screenshot generation
 
 [Unreleased]: https://github.com/jamelait/graffiti/compare/v0.0.1...HEAD
-[0.0.1]: https://github.com/jamelait/graffiti/compare/v0.0.1...master
+[0.0.2]: https://github.com/jamelait/graffiti/compare/v0.0.1...v0.0.2
+[0.0.1]: https://github.com/jamelait/graffiti/releases/tag/v0.0.1
