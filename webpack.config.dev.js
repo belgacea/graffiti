@@ -6,16 +6,12 @@ var config = {
     target: 'electron-main',
 
     // Enable sourcemaps for debugging webpack's output.
-    devtool: "source-map",
+    // devtool: "source-map",
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".json"]
     },
-
-    // devServer: {
-    //     hot: true
-    // },
 
     module: {
         rules: [
@@ -40,6 +36,12 @@ var config = {
         // "react": "React",
         // "react-dom": "ReactDOM"
     },
+    
+    devServer: {
+        // hot: true,
+        host: 'localhost', 
+        port: 8080
+    },
 
     // Ecrase la valeur définie par cross-env seulement pour le renderer
     plugins: [
@@ -58,9 +60,9 @@ var mainWindow = Object.assign({}, config,{
     output: {
         filename: "bundle.js",
         path: __dirname + "/dist",
-        // publicPath nécessaire pour Electron
+        // publicPath needed by Electron
         publicPath: 'http://localhost:8080/',
-    }
+    },
 });
 
 var backgroundWindow = Object.assign({}, config,{
@@ -69,7 +71,7 @@ var backgroundWindow = Object.assign({}, config,{
     output: {
         filename: "background.js",
         path: __dirname + "/dist",
-        // publicPath nécessaire pour Electron
+        // publicPath needed by Electron
         publicPath: 'http://localhost:8080/',
     },
 });
