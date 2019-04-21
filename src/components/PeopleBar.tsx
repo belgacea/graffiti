@@ -123,7 +123,7 @@ class PeopleBar extends React.Component<IPeopleBarProps, IPeopleBarState> {
         const { people, isExpanded } = this.state;
         const expandCollapseIconName = isExpanded ? 'double-chevron-left' : 'double-chevron-right';
         const confirmButtonText = this.state.deleteConfirmationData ? 'Delete "' + this.state.deleteConfirmationData.name + '"' : '';
-        const alphabet = [...'abcdefghijklmnopqrstuvwxyz'.toUpperCase()].map(letter => 
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('').map(letter => 
             <span className='letter' key={'letter' + letter} onClick={ () => this.onLetterClicked(letter) }>{letter}</span>
         );
 

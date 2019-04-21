@@ -1,6 +1,6 @@
 import * as React from "react";
-// import * as Dropzone from 'react-dropzone'
-// import Dropzone from 'react-dropzone'
+import { connect } from 'react-redux'
+import Dropzone from 'react-dropzone'
 import { Dialog, Button, Intent, Icon, Checkbox } from "@blueprintjs/core";
 import Persistence from '../core/Persistence';
 import Person from '../types/Person';
@@ -10,15 +10,16 @@ import * as fs from 'fs-extra'
 import { ipcRenderer } from 'electron';
 import { IpcEvents } from '../common/Constants.js'
 
-import { connect } from 'react-redux'
 import * as myActions from '../redux/Actions'
 import ToastHelper from "../core/ToastHelper";
+import PersonStore from '../store/PersonStore'
 import SuggestiveInput from "../components/SuggestiveInput";
 import * as Analytics from '../common/Analytics';
 
 interface IEditPersonModalReduxProps {
     isOpen: boolean
     person: Person
+    people: Person[]
 }
 
 interface IEditPersonModalReduxActions {
@@ -34,18 +35,24 @@ interface IEditPersonModalState {
     photo: string
     shouldMatchVideos: boolean
     tags: string[]
+    photoBase64?: any
+    filename?: string
+}
+
+const defaultState = {
+    name: '',
+    photo: null,
+    shouldMatchVideos: undefined,
+    tags: [],
+    photoBase64: null,
+    filename: null
 }
 
 class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPersonModalState> {
 
     constructor(props: any) {
         super(props);
-        this.state = {
-            name: '',
-            photo: null,
-            shouldMatchVideos: undefined,
-            tags: []
-        }
+        this.state = {...defaultState}
     }
 
     componentWillReceiveProps(nextProps: IEditPersonModalProps) {
@@ -62,6 +69,11 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
         this.setState({ name: event.target.value });
     }
 
+    cancel = () => {
+        this.setState({...defaultState})
+        this.props.closeEditPersonModal()
+    }
+
     save = async () => {
         const db = new Persistence();
         const settings = await db.getSettings();
@@ -69,34 +81,62 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
         const oldAutoMath = person.autoMatch;
         let { name, photo, shouldMatchVideos, tags } = this.state;
 
-        if (photo && photo !== person.photo) {
-            console.warn('TODO: use Util.uuid')
-            const newPhoto = Path.join(settings.PictureFolder, uuidv1().replace(/-/g, '') + Path.extname(photo));
-            fs.copySync(photo, newPhoto);
-            photo = newPhoto;
-            console.warn('TODO: overwrite if exist ?')
+        if (!fs.existsSync(settings.PictureFolder)) {
+            fs.mkdirSync(settings.PictureFolder)
+        }
+
+        if (this.state.photoBase64) {
+            const oldPhoto = photo
+            const filename = uuidv1().replace(/-/g, '') + Path.extname(this.state.filename)
+            photo = Path.join(settings.PictureFolder, filename)
+            fs.writeFileSync(photo, this.state.photoBase64.replace(/^data:image\/png;base64,/, ''), 'base64')
+            try {
+                if (oldPhoto) fs.unlinkSync(oldPhoto)
+            }
+            catch {}
         }
 
         if (person.name !== name) Analytics.events.PEOPLE_EDIT(person.name + ' > ' + name);
         if (person.tags !== tags) Analytics.events.PEOPLE_TAG(tags.toString());
         
+        if (person.name !== name) {
+            name = name.trim();
+            if (!name) { // empty string
+              ToastHelper.error('The name is required');
+              return;
+            }
+            const existingPerson = new PersonStore(this.props.people).getByName(name);
+            if (existingPerson) {
+              ToastHelper.error('"' + name + '" already exists');
+              return;
+            }
+        }
+
         person.name = name;
         person.photo = photo;
         person.autoMatch = shouldMatchVideos;
         person.tags = tags;
         db.update(person).then(() => {
+            this.setState({...defaultState})
             this.props.closeEditPersonModal();
             this.props.loadPeople();
             ToastHelper.success('Changes saved');
-            console.warn("TODO: this.props.editPerson ? utiliser loadPeople m'oblige à updater currentPeople aussi")
+            console.warn("TODO: this.props.editPerson ? using loadPeople makes updating currentPeople compulsory")
         });
         if (!oldAutoMath && shouldMatchVideos) {
             ipcRenderer.send(IpcEvents.Background.MatchPerson, person);
         }
     }
 
-    onDrop = (acceptedFiles, rejectedFiles) => {
-        this.setState({ photo: acceptedFiles[0].path })
+    onDrop(acceptedFiles: File[]) {
+        const file = acceptedFiles[0]
+        const reader = new FileReader()
+    
+        reader.onload = () => {
+          this.setState({ photoBase64: reader.result, filename: file.path })
+        }
+    
+        reader.readAsDataURL(file)
     }
 
     handleDeletePhoto = (event: React.MouseEvent<HTMLSpanElement>) => {
@@ -116,8 +156,9 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
     }
 
     render() {
-        const { isOpen } = this.props;
-        const { name, photo } = this.state;
+        const { isOpen } = this.props
+        const { name, photoBase64, photo } = this.state
+        const src = photoBase64 || photo
         return (
             <Dialog
                 icon="person"
@@ -125,10 +166,16 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
                 onClose={this.props.closeEditPersonModal}
                 title="Edit">
                 <div className="pt-dialog-body" id='create-person'>
-                    {/* <Dropzone onDrop={this.onDrop} className='drop-image-person'> */}
-                        {/* { photo ? <Icon icon='delete' className='delete-photo' onClick={ this.handleDeletePhoto }/> : null } */}
-                        {/* {photo ? <img src={photo} className='dropped-image' /> : null} */}
-                    {/* </Dropzone> */}
+                    <Dropzone onDrop={this.onDrop.bind(this)}>
+                        {({ getRootProps, getInputProps }) => (
+                        <section>
+                            <div {...getRootProps()} className='drop-image-person'>
+                            <input {...getInputProps()} />
+                            {src ? <img src={src} className='dropped-image' /> : null}
+                            </div>
+                        </section>
+                        )}
+                    </Dropzone>
                     <div className="right">
                         <input className="pt-input person-name" type="text" placeholder="Person's name" value={name} dir="auto" onChange={this.handleChange} />
                         <br />
@@ -152,7 +199,7 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
                     <div className="pt-dialog-footer-actions">
                         <Button
                             text="Cancel"
-                            onClick={this.props.closeEditPersonModal}
+                            onClick={this.cancel}
                         />
                         <Button
                             text="Save"
@@ -169,7 +216,8 @@ class EditPersonModal extends React.Component<IEditPersonModalProps, IEditPerson
 function mapStateToProps(state, ownProps): IEditPersonModalReduxProps {
     return {
         isOpen: state.myReducer.isModelEditPersonOpen,
-        person: state.myReducer.editablePerson
+        person: state.myReducer.editablePerson,
+        people: state.myReducer.people,
     }
 }
 

@@ -79,6 +79,7 @@
     "react": "16.8.6",
     "react-addons-css-transition-group": "15.6.2",
     "react-dom": "16.8.6",
+    "react-dropzone": "10.1.4",
     "react-list": "0.8.11",
     "react-redux": "7.0.2",
     "react-tap-event-plugin": "3.0.3",
