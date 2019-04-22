@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as _ from "lodash";
+import { ipcRenderer } from 'electron';
 import Folder from "../types/Folder";
-import { Checkbox, Tooltip, Position } from '@blueprintjs/core'
+import { Checkbox, Tooltip, Position, Button, Intent } from '@blueprintjs/core'
 import * as Analytics from '../common/Analytics';
 
 const electron = require('electron')
@@ -78,9 +79,7 @@ export default class WatchedFolders extends React.Component<IWatchedFoldersProps
     render() {
         const folderElements = !this.state.folders ? null : this.state.folders.map((folder, index) => 
                         <div key={index} className='folder'>
-                            <button type="button" className="pt-button pt-intent-danger" onClick={ this.deleteDirectory.bind(this, index) }>Remove
-                                <span className="pt-icon-standard pt-icon-trash pt-align-right"></span>
-                            </button>
+                            <Button intent={Intent.DANGER} icon='trash' onClick={ this.deleteDirectory.bind(this, index) }>Remove</Button>
                             <span className='path'>{ folder.path }</span>
                             <Tooltip className='auto-update' content='Look for new files when I start the app' position={Position.LEFT}>
                                 <Checkbox
@@ -92,7 +91,8 @@ export default class WatchedFolders extends React.Component<IWatchedFoldersProps
         return (
                 <div id='watched-folders'>
                     <p>Choose the folders you want to analyze.</p>
-                    <button type="button" className="pt-button pt-icon-add" onClick={this.selectDirectory.bind(this)}>Browse</button>
+                    {/* <button type="button" className="pt-button add" onClick={this.selectDirectory.bind(this)}>Browse</button> */}
+                    <Button icon='add' onClick={this.selectDirectory.bind(this)}>Browse</Button>
                     <div className='list'>
                         { folderElements }
                     </div>

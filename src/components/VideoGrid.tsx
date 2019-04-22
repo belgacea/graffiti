@@ -1,9 +1,11 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import { ipcRenderer } from 'electron';
 import * as ReactList from 'react-list';
 
 import VideoCard from './VideoCard';
 
+import Persistence from '../core/Persistence';
 import Video from '../types/Video';
 
 interface IVideoGridProps {
@@ -12,12 +14,12 @@ interface IVideoGridProps {
 
 export default class VideoGrid extends React.Component<IVideoGridProps, undefined> {
     public static scrollY:number = 0;
-    public static lastIndex:number = 0; // TODO: move to VideoList (because this component is also used in PersonDetails)
+    public static lastIndex:number = 0; // TODO: move to VideoList (because this component is alson used in PersonDetails)
 
     private videoElements:any; // TODO: remove: I use the prop initialIndex, not this.videoElements.scrollTo method
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
     }
 
     componentDidMount() {

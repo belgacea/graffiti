@@ -1,7 +1,6 @@
-ship.sh
-config.prod.json
-config.uat.json
 node_modules/
 dist/
+ship.sh
+config.*.json
 yarn-error.log
 *.zip

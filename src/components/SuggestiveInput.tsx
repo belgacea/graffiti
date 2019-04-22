@@ -76,7 +76,7 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
                 });
                 return JSON.stringify(str).toLowerCase().indexOf(text.toLowerCase()) >= 0
             });
-            console.warn('TODO: filtering can be improved, add prop filterSuggestions (et pour les acteurs ne filtrer que sur le nom)');
+            console.warn('TODO: filtering can be improved, add prop filterSuggestions');
         }
 
         this.filteredSuggestions = filtered;
@@ -174,37 +174,6 @@ export default class SuggestiveInput extends React.Component<ISuggestiveInputPro
                 { renderedTag }
                 <button type="button" className="pt-tag-remove" onClick={ this.handleRemoveTag }></button>
             </span>
-        );
-    }
-
-    tmpFakeSuggestions() {
-        return (
-            <ul className="pt-menu">
-                <li className="" onMouseDown={() => console.log('item mouse down')}>
-                    <a className="pt-menu-item pt-popover-dismiss">
-                        <span className="pt-menu-item-label">1994</span>
-                        1. The Shawshank Redemption
-                    </a>
-                </li>
-                <li className="">
-                    <a className="pt-menu-item pt-popover-dismiss">
-                        <span className="pt-menu-item-label">1994</span>
-                        1. The Shawshank Redemption
-                    </a>
-                </li>
-                <li className="">
-                    <a className="pt-menu-item pt-popover-dismiss pt-active ">
-                        <span className="pt-menu-item-label">1994</span>
-                        1. The Shawshank Redemption
-                    </a>
-                </li>
-                <li className="">
-                    <a className="pt-menu-item pt-popover-dismiss pt-active pt-intent-primary">
-                        <span className="pt-menu-item-label">1994</span>
-                        1. The Shawshank Redemption
-                    </a>
-                </li>
-            </ul>
         );
     }
 }

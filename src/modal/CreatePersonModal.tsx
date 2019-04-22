@@ -1,5 +1,5 @@
 import * as React from "react";
-// import * as Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone'
 import { Dialog, Button, Intent, Checkbox } from "@blueprintjs/core";
 import Persistence from '../core/Persistence';
 import Person from '../types/Person';
@@ -7,6 +7,7 @@ import * as Path from 'path'
 import * as fs from 'fs-extra'
 import PersonStore from '../store/PersonStore'
 import ToastHelper from "../core/ToastHelper";
+const uuidv1 = require('uuid/v1');
 
 interface ICreatePersonModalProps {
   isOpen: boolean
@@ -17,14 +18,15 @@ interface ICreatePersonModalProps {
 
 interface ICreatePersonModalState {
   personName?: string
-  photo?: string
   shouldMatchVideos?: boolean
+  photoBase64?: any
+  filename?: string
 }
 
 export default class CreatePersonModal extends React.Component<ICreatePersonModalProps, ICreatePersonModalState> {
 
-  constructor() {
-    super();
+  constructor(props: any) {
+    super(props);
     this.state = {
       shouldMatchVideos: true
     }
@@ -35,50 +37,68 @@ export default class CreatePersonModal extends React.Component<ICreatePersonModa
   }
 
   save = async () => {
-    let personName = this.state.personName.trim();
+    let photo;
+    const db = new Persistence();
+    const settings = await db.getSettings();
+    let personName = (this.state.personName || '').trim();
+
     if (!personName) { // empty string
+      ToastHelper.error('The name is required');
       return;
     }
+
     const existingPerson = new PersonStore(this.props.people).getByName(personName);
     if (existingPerson) {
       ToastHelper.error('"' + personName + '" already exists');
       return;
     }
 
-    const uuidv1 = require('uuid/v1');
-    console.warn('TODO: use Util.uuid')
-    const db = new Persistence();
+    if (!fs.existsSync(settings.PictureFolder)) {
+      fs.mkdirSync(settings.PictureFolder)
+    }
 
-    const settings = await db.getSettings();
-    const originalPhoto = this.state.photo;
-    let photo;
-    if (originalPhoto) {
-      photo = Path.join(settings.PictureFolder, uuidv1().replace(/-/g, '') + Path.extname(this.state.photo));
-      fs.copySync(this.state.photo, photo);
+    if (this.state.photoBase64) {
+      photo = Path.join(settings.PictureFolder, uuidv1().replace(/-/g, '') + Path.extname(this.state.filename))
+      fs.writeFileSync(photo, this.state.photoBase64.replace(/^data:image\/png;base64,/, ''), 'base64')
     }
 
     let person = new Person(personName, photo, this.state.shouldMatchVideos);
     db.insert(person).then((personSaved: Person) => {
       this.props.onSaved(personSaved);
-      this.setState({ personName: null, photo: null });
+      this.setState({ personName: null });
     });
   }
 
-  onDrop(acceptedFiles, rejectedFiles) {
-    this.setState({ photo: acceptedFiles[0].path })
+  onDrop(acceptedFiles: File[]) {
+    const file = acceptedFiles[0]
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      this.setState({ photoBase64: reader.result, filename: file.path })
+    }
+
+    reader.readAsDataURL(file)
   }
 
   render() {
+    const src = this.state.photoBase64
     return (
       <Dialog
-        iconName="person"
+        icon="person"
         isOpen={this.props.isOpen}
         onClose={this.props.onClose}
         title="New">
         <div className="pt-dialog-body" id='create-person'>
-          {/* <Dropzone onDrop={this.onDrop.bind(this)} className='drop-image-person'> */}
-            {/* {this.state.photo ? <img src={this.state.photo} className='dropped-image' /> : null} */}
-          {/* </Dropzone> */}
+          <Dropzone onDrop={this.onDrop.bind(this)}>
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <div {...getRootProps()} className='drop-image-person'>
+                  <input {...getInputProps()} />
+                  {src ? <img src={src} className='dropped-image' /> : null}
+                </div>
+              </section>
+            )}
+          </Dropzone>
           <div className="right">
             <input className="pt-input person-name" type="text" placeholder="Person's name" dir="auto" onChange={this.handleChange} />
             <br />

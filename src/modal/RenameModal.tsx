@@ -73,7 +73,7 @@ export default class RenameModal extends React.Component<IRenameModalProps, IRen
         return (
             <Dialog
                 className='rename-modal'
-                iconName="edit"
+                icon="edit"
                 isOpen={this.props.isOpen}
                 onClose={this.props.onClose}
                 title="Rename">

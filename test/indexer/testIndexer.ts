@@ -6,11 +6,12 @@ import Indexer from '../../src/background/Indexer'
 import Crawler from '../../src/background/Crawler'
 import Persistence from '../../src/core/Persistence';
 declare var global;
+const config = require('../../config.test.json');
 
 // npm run test-ts -- --grep "Indexer_stat"
 describe('Indexer_stat', function () {
     it('should give me some stats', function () {
-        const filePath = 'A:\\input\\vid.mp4';
+        const filePath = config.InputFolder + 'vid.mp4';
         const stats = fs.statSync(filePath);
         console.log(stats)
     });
@@ -40,7 +41,7 @@ describe('Indexer: index videos', function () {
     });
 
     it('should index files since last time started', function (done) {
-        global.appSettings.WatchedFolders.push('A:\\videos\\b');
+        global.appSettings.WatchedFolders.push(config.InputFolder);
         const numberOfFilesToIndex = 5;
 
         const finished = (newVideos, modVideos) => {
@@ -89,7 +90,7 @@ describe('Indexer_NoDb_GetVideos', function () {
 describe('Indexer_CleanUp', function () {
     this.timeout(1000 * 60 * 10);
     it('should do some cleanup', function (done) {
-        global.appSettings = { DatabasePath: 'A:\\graffiti-db.grf' }
+        global.appSettings = { DatabasePath: config.DatabasePath }
         Database.createOrOpen();
         const handleProgress = (p) => { console.log(p + '%') }
         Database.getAll('video').then(videos => {
@@ -104,7 +105,7 @@ describe('Indexer_CleanUp', function () {
 describe('Indexer_Duplicates', function () {
     this.timeout(1000 * 60 * 10);
     it('should return the duplicates', function (done) {
-        global.appSettings = { DatabasePath: 'A:\\graffiti-db.grf' }
+        global.appSettings = { DatabasePath: config.DatabasePath }
         Database.createOrOpen();
         const handleProgress = (p) => { console.log(p + '%') }
         Database.getAll('video').then(videos => {

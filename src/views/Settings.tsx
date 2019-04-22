@@ -24,8 +24,8 @@ const MENU_IMAGES = 1;
 
 export default class Settings extends React.Component<any, ISettingsState> {
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
 
         this.state = { activeMenu: MENU_VIDEOS };
         new Persistence().getSettings().then((settings: AppSettings) => {
@@ -163,7 +163,7 @@ export default class Settings extends React.Component<any, ISettingsState> {
                     type="text" readOnly
                     value={settings.PictureFolder}
                 />
-                <button type="button" className="pt-button pt-icon-add" onClick={() => this.selectFolder(this.onPictureFolderChanged)}>Browse</button>
+                <button type="button" className="pt-button add" onClick={() => this.selectFolder(this.onPictureFolderChanged)}>Browse</button>
                 <br /><br />
 
                 <span>Where do you want save the screenshots?</span>
@@ -172,7 +172,7 @@ export default class Settings extends React.Component<any, ISettingsState> {
                     type="text" readOnly
                     value={settings.ThumbnailFolder}
                 />
-                <button type="button" className="pt-button pt-icon-add" onClick={() => this.selectFolder(this.onThumbnailFolderChanged)}>Browse</button>
+                <button type="button" className="pt-button add" onClick={() => this.selectFolder(this.onThumbnailFolderChanged)}>Browse</button>
                 <br /><br />
 
                 <Checkbox
@@ -212,13 +212,13 @@ export default class Settings extends React.Component<any, ISettingsState> {
         return (
             <Menu>
                 <MenuItem
-                    iconName="pt-icon-mobile-video"
+                    icon="mobile-video"
                     className={activeMenu === MENU_VIDEOS ? 'pt-active' : undefined}
                     onClick={() => this.setState({ activeMenu: MENU_VIDEOS })}
                     text="Videos"
                 />
                 <MenuItem
-                    iconName="pt-icon-media"
+                    icon="media"
                     className={activeMenu === MENU_IMAGES ? 'pt-active' : undefined}
                     onClick={() => this.setState({ activeMenu: MENU_IMAGES })}
                     text="Images"

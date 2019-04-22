@@ -51,15 +51,15 @@ export default class FileExistenceIndicator extends React.Component<IFileExisten
         let icon, tooltip = null;
         switch (this.state.fileExists) {
             case true:
-                icon = <Icon iconName="pt-icon-tick-circle" className='file-status-icon' style={{ color: '#0A6640' }} onClick={this.refresh} />
+                icon = <Icon icon="tick-circle" className='file-status-icon' style={{ color: '#0A6640' }} onClick={this.refresh} />
                 tooltip = 'The file exists'
                 break;
             case false:
-                icon = <Icon iconName="pt-icon-error" className='file-status-icon' style={{ color: '#A82A2A' }} onClick={this.refresh} />
+                icon = <Icon icon="error" className='file-status-icon' style={{ color: '#A82A2A' }} onClick={this.refresh} />
                 tooltip = 'The file was not found'
                 break;
             default:
-                icon = <Icon iconName="pt-icon-help" className='file-status-icon' style={{ color: '#0E5A8A' }} onClick={this.refresh} />
+                icon = <Icon icon="help" className='file-status-icon' style={{ color: '#0E5A8A' }} onClick={this.refresh} />
                 tooltip = 'Existence unknown'
                 break;
         }

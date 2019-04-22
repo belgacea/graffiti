@@ -5,7 +5,7 @@ import PersonCircle from '../components/PersonCircle'
 import Person from '../types/Person'
 export class Test extends React.Component<any, any> {
     constructor() {
-        super();
+        super({});
         this.state = {
             values: ['hello'],
             objects: []

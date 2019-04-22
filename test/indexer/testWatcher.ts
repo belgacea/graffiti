@@ -2,12 +2,13 @@ import Watcher from '../../src/background/Watcher'
 import * as fs from 'fs'
 import * as assert from 'assert'
 const exec = require('child_process').exec;
+const config = require('../../config.test.json');
 
 describe('Watcher_move', function() {
     this.timeout(1000*60*0.5); // 30 seconds
     it('should detect a move', function(done) {
-        const sourcePath = 'A:\\input\\sample videos\\Video (3).mp4';
-        const targetPath = 'B:\\Video (3).mp4';
+        const sourcePath = config.InputFolder + '\\sample videos\\Video (3).mp4';
+        const targetPath = config.Drives[1] + 'Video (3).mp4';
 
         if (!fs.existsSync(sourcePath)) {
             done(new Error('Source file does not exist'));
@@ -31,6 +32,6 @@ describe('Watcher_move', function() {
             exec(`move "${sourcePath}" "${targetPath}"`, () => {console.log('move done')});
         }
         
-        w.watchFolder(["B:\\","A:\\"])
+        w.watchFolder(config.Drives)
     });
 })

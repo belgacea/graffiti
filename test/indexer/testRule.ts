@@ -1,8 +1,9 @@
 const assert = require('assert');
 import Rule, { RuleTarget, RuleCondition, RuleAlteration } from '../../src/types/Rule'
 import Video from '../../src/types/Video';
+const config = require('../../config.test.json');
 
-const video = new Video('a:\\test\\ufc.video.mp4');
+const video = new Video(config.InputFolder + 'ufc.video.mp4');
 const rule = new Rule();
 rule.target = RuleTarget.NAME;
 rule.condition = RuleCondition.STARTS_WITH;

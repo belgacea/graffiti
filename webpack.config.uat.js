@@ -1,8 +1,6 @@
 const PostElectronBuild = require('./post-electron-build');
 const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     target: 'electron-main',
@@ -55,18 +53,18 @@ module.exports = {
         "react-dom": "ReactDOM"
     },
 
+    optimization: {
+        minimizer: [new TerserPlugin({
+            parallel: true,
+            sourceMap: true,
+        })],
+    },
+
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('uat'),
             //https://github.com/fluent-ffmpeg/node-fluent-ffmpeg/issues/573#issuecomment-305408048
             'process.env.FLUENTFFMPEG_COV': false
-        }),
-        new UglifyJSPlugin({
-            uglifyOptions: {
-                output: {
-                    "ascii_only": true
-                }
-            }
         }),
         new PostElectronBuild()
     ]

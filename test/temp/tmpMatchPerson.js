@@ -2,8 +2,9 @@ const assert = require('assert');
 const Datastore = require('nedb');
 const _ = require('lodash')
 const Indexer = require('../../src/background/Indexer')
+const config = require('../../config.test.json');
+const filepath = config.DatabasePath
 
-const filepath = 'A:\\test\\graffiti-db.grf'
 const db = new Datastore({ filename: filepath, autoload: true, timestampData: true });
 
 describe('Temp_matchPerson_db_1', function () {

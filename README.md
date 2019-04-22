@@ -50,6 +50,37 @@ cd graffiti
 yarn install
 ```
 
+Some config files are not in the repo as they contain sensitive informations but are still needed for developement. Here is what they look like:
+
+**config.dev.json**
+```json
+{
+    "appSettings": {
+        "ThumbnailFolder": "",
+        "PictureFolder": "",
+        "DatabasePath": "",
+        "ErrorLogPath": ""
+    }
+}
+```
+**config.test.json**
+```json
+{
+    "appSettings": {
+        "ThumbnailFolder": "",
+        "PictureFolder": "",
+        "DatabasePath": "",
+        "ErrorLogPath": ""
+    },
+    "Drive": "",
+    "Drives": [],
+    "OutputFolder": "",
+    "DatabasePath": "",
+    "InputFolder": ""
+}
+```
+
+
 ### Running
 In one terminal:
 ```

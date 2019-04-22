@@ -6,7 +6,7 @@ import * as filesize from 'filesize';
 import * as ReactList from 'react-list';
 import * as Util from '../common/Util'
 import { IpcEvents } from '../common/Constants.js'
-import { ProgressBar, Switch, Button, Intent, Tab2, Tabs2 } from '@blueprintjs/core';
+import { ProgressBar, Switch, Button, Intent, Tab, Tabs } from '@blueprintjs/core';
 import Video from "../types/Video";
 import Persistence from "../core/Persistence";
 import VideoStore from "../store/VideoStore";
@@ -209,11 +209,11 @@ export default class CleanUp extends React.Component<ICleanUpProps, ICleanUpStat
         );
 
         return (
-            <Tabs2 id="clean-up-result" renderActiveTabPanelOnly={true} onChange={(newTabId: string, prevTabId: string) => this.setState({ activeTab: newTabId })}>
-                <Tab2 id={TAB_ID_EXISTING_VIDEOS} title="Deleted videos still on the hard drive" panel={existingVideosDeletedElements} />
-                <Tab2 id={TAB_ID_NON_EXISTING_VIDEOS} title="Unfound videos from hard drive" panel={nonExistingVideoNotDeletedElements} />
-                <Tabs2.Expander />
-            </Tabs2>
+            <Tabs id="clean-up-result" renderActiveTabPanelOnly={true} onChange={(newTabId: string, prevTabId: string) => this.setState({ activeTab: newTabId })}>
+                <Tab id={TAB_ID_EXISTING_VIDEOS} title="Deleted videos still on the hard drive" panel={existingVideosDeletedElements} />
+                <Tab id={TAB_ID_NON_EXISTING_VIDEOS} title="Unfound videos from hard drive" panel={nonExistingVideoNotDeletedElements} />
+                <Tabs.Expander />
+            </Tabs>
         )
     }
 

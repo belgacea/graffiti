@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from 'react-redux'
-import { Icon, Popover, Menu, MenuItem, MenuDivider, Position, Button } from '@blueprintjs/core';
+import { Icon, Popover, Menu, MenuItem, MenuDivider, Position, Button, Navbar, Alignment, InputGroup } from '@blueprintjs/core';
 import * as myActions from '../redux/Actions'
 import IState from '../types/IState'
 import { bindActionCreators } from 'redux'
@@ -23,8 +23,8 @@ interface IHeaderState {
 
 class Header extends React.Component<IHeaderProps, IHeaderState> {
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
         this.state = {
             search: ''
         };
@@ -75,24 +75,24 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         return (
             <Menu>
                 <MenuItem
-                    iconName="comparison"
+                    icon="comparison"
                     onClick={() => Router.to.Duplicates()}
                     text="Duplicates"
                 />
                 <MenuItem
-                    iconName="trash"
+                    icon="trash"
                     onClick={() => Router.to.CleanUp()}
                     text="Clean up"
                 />
                 <MenuDivider />
                 <MenuItem
-                    iconName="properties"
+                    icon="properties"
                     text="Rules"
                     onClick={() => Router.to.Rules()}
                     />
                 <MenuItem
                     text="Settings"
-                    iconName="cog"
+                    icon="cog"
                     onClick={() => Router.to.Settings()}
                 />
             </Menu>
@@ -102,11 +102,11 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
     renderHistory() {
         const elements = (this.props.searchHistory || []).map(item => <MenuItem key={item.id} text={item.toString()} onClick={() => this.props.doSearch(item.request)} />)
         return (
-            <div className="pt-navbar-group pt-align-right">
+            <Navbar.Group align={Alignment.RIGHT}>
                 <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_LEFT}>
-                    <button className="pt-button pt-minimal pt-icon-history"></button>
+                    <Button icon='history' minimal={true} />
                 </Popover>
-            </div>
+            </Navbar.Group>
         );
     }
 
@@ -117,38 +117,39 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
         }
         const elements = (this.props.bookmarks || []).map(video => <MenuItem key={video._id} text={video.getName()} onClick={() => load(video)} />)
         return (
-            <div className="pt-navbar-group pt-align-left">
+            <Navbar.Group align={Alignment.LEFT}>
                 <Popover content={ <Menu>{ elements }</Menu> } position={Position.BOTTOM_RIGHT}>
-                    <button className="pt-button pt-minimal pt-icon-bookmark"></button>
+                    <Button icon='bookmark' minimal={true} />
                 </Popover>
-            </div>
+            </Navbar.Group>
         );
     }
 
     render() {
         return (
-            <nav className="pt-navbar pt-dark">
-                <div className="pt-navbar-group pt-align-left">
-                    <button className="pt-button pt-minimal pt-icon-chevron-left" onClick={this.back}></button>
-                    {/* <Icon className='nav-button' iconName='pt-icon-chevron-left' onClick={this.back} /> */}
-                    {/* <Icon className='nav-button home' iconName='pt-icon-home' onClick={this.home} /> */}
-                    <button className="pt-button pt-minimal pt-icon-home" onClick={this.home}>Home</button>
-                    <input className="pt-input" type="text" placeholder="Search" dir="auto" id='search-input'
+            <Navbar className="bp3-dark">
+                <Navbar.Group align={Alignment.LEFT}>
+                    <Button icon='chevron-left' minimal={true} onClick={this.back} />
+                    {/* <Icon className='nav-button' icon='chevron-left' onClick={this.back} /> */}
+                    {/* <Icon className='nav-button home' icon='home' onClick={this.home} /> */}
+                    <Button icon='home' minimal={true} onClick={this.home}>Home</Button>
+                    <InputGroup placeholder="Search" id='search-input'
                         onChange={this.handleChange}
                         onKeyDown={this.handleKeyDown}
                         onKeyUp={this.handleKeyUp}
                         value={this.state.search} />
-                    <button className="pt-button pt-minimal pt-icon-search" onClick={this.onSearch}></button>
+                    <Button icon='search' minimal={true} onClick={this.onSearch} />
                     { this.renderHistory() }
-                    <button className="pt-button pt-minimal pt-icon-cross" onClick={this.onClear}></button>
-                </div>
-                <div className="pt-navbar-group pt-align-right">
+                    <Button icon='cross' minimal={true} onClick={this.onClear} />
+                </Navbar.Group>
+
+                <Navbar.Group align={Alignment.RIGHT}>
                 { this.renderBookmarks() }
                     <Popover content={this.renderMenu()} position={Position.BOTTOM_RIGHT}>
-                        <button className="pt-button pt-minimal pt-icon-menu"></button>
+                        <Button icon='menu' minimal={true} onClick={this.back} />
                     </Popover>
-                </div>
-            </nav>
+                </Navbar.Group>
+            </Navbar>
         );
     }
 }

@@ -25,7 +25,7 @@ function loadVideosSuccess(videos) {
     }
 }
 
-export function loadVideos() {
+export function loadVideos() : any {
     console.warn('Actions.loadVideos start')
     console.time('loadVideos')
     return function(dispatch) {
@@ -59,7 +59,7 @@ function loadPeopleSuccess(people) {
     }
 }
 
-export function loadPeople() {
+export function loadPeople() : any {
     return function(dispatch) {
         return new Persistence()
             .getAll(Person.TYPE)
@@ -157,7 +157,7 @@ export function closeEditPersonModal() {
     }
 }
 
-export function injectVideos(videos:Video[]) {
+export function injectVideos(videos:Video[]) : any {
     console.log('Action.injectVideos', videos.length)
     console.warn('rename to REPLACE_INJECT_VIDEOS -- will remove existent and inject new from db, param should be ids')
     return function(dispatch) {
@@ -201,7 +201,7 @@ export function saveRule(rule: Rule) {
     }
 }
 
-export function loadRules() {
+export function loadRules() : any {
     return function(dispatch) {
         return new Persistence()
             .getAll(Rule.TYPE)

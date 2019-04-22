@@ -74,7 +74,7 @@ header .settings {
     /* override .pt-card */
     padding: 4px !important;
     width: 250px;
-    height: 150px;
+    height: 145px;
     cursor: default !important;
 }
 
@@ -119,6 +119,11 @@ header .settings {
 #first-start .thumbnail-folder {
     width: 469px;
     margin-right: 1px;
+    display: inline-flex;
+}
+
+#first-start .browse-button {
+    margin-top: -3px;
 }
 
 .drop-image-person {
@@ -145,15 +150,14 @@ header .settings {
 }
 
 .no-image {
-    font-size: 50px !important;
     text-align: center;
     position: fixed;
     width: 250px;
-    line-height: 150px !important;
+    /* line-height: 150px !important; */
     color: #A82A2A;
 }
 
-.pt-icon-search {
+.search {
     cursor: pointer;
 }
 
