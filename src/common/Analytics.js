@@ -8,8 +8,8 @@ const _ = require('lodash');
 const fs = require('fs')
 const path = require('path')
 
-const UAT_TRACKING_CODE = 'UA-117105247-5';
-const PROD_TRACKING_CODE = 'UA-117105247-6';
+// const UAT_TRACKING_CODE = 'UA-117105247-5';
+// const PROD_TRACKING_CODE = 'UA-117105247-6';
 
 let user;
 

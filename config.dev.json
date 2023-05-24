@@ -1,0 +1,8 @@
+{
+  "appSettings": {
+    "ThumbnailFolder": "./workspace/pictures",
+    "PictureFolder": "./workspace/thumbnails",
+    "DatabasePath": "./workspace/graffiti-db.grf",
+    "ErrorLogPath": "./workspace/errorlog.grf"
+  }
+}

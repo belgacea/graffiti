@@ -39,7 +39,16 @@ let closing = false; // for dev: so we actually close the background window
 var mainWindow;
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1000, height: 700, show: true })
+  mainWindow = new BrowserWindow({
+    width: 1000, height: 700, show: true,
+    webPreferences: {
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+      // allowRunningInsecureContent: true,
+    },
+  })
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: Path.join(__dirname, 'index.html'),
@@ -85,7 +94,15 @@ function createWindow() {
 var backgroundWindow;
 function createBackgroundWindow() {
   // backgroundWindow = new BrowserWindow({width: 1000, height: 700, show: true}); backgroundWindow.maximize();
-  backgroundWindow = new BrowserWindow({ show: false });
+  backgroundWindow = new BrowserWindow({ show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+      // allowRunningInsecureContent: true,
+    },
+  });
   backgroundWindow.loadURL(url.format({
     pathname: Path.join(__dirname, 'background.html'),
     protocol: 'file:',
@@ -135,6 +152,12 @@ app.on('activate', function () {
     createBackgroundWindow()
   }
 })
+
+// app.on('certificate-error', function(event, webContents, url, error,
+//                                      certificate, callback) {
+//   event.preventDefault();
+//   callback(true);
+// });
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

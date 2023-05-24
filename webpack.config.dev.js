@@ -4,7 +4,7 @@ const fs = require('fs');
 
 var config = {
     target: 'electron-main',
-
+    mode: 'development',
     // Enable sourcemaps for debugging webpack's output.
     // devtool: "source-map",
 

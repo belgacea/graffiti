@@ -1,0 +1,13 @@
+{
+  "appSettings": {
+    "ThumbnailFolder": "",
+    "PictureFolder": "",
+    "DatabasePath": "",
+    "ErrorLogPath": ""
+  },
+  "Drive": "",
+  "Drives": [],
+  "OutputFolder": "",
+  "DatabasePath": "",
+  "InputFolder": ""
+}
