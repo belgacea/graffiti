@@ -21,7 +21,7 @@
     "webpack:uat": "webpack --config webpack.config.uat.js --progress --profile --colors",
     "build:uat": "yarn webpack:uat && yarn dist32",
     "build:prod": "yarn webpack:prod && build --ia32 --x64 --config electron-builder.config.prod.json",
-    "clean": "rmdir /S /Q \"./dist/app\""
+    "clean": "rm -rf node_modules & rm -rf dist"
   },
   "keywords": [],
   "author": {
@@ -47,7 +47,7 @@
     "awesome-typescript-loader": "5.2.1",
     "cross-env": "5.2.0",
     "css-loader": "2.1.1",
-    "electron": "^4.1.4",
+    "electron": "^5.0.0",
     "electron-builder": "20.39.0",
     "mocha": "6.1.4",
     "source-map-loader": "0.2.4",

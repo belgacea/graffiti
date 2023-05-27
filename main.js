@@ -1,22 +1,21 @@
-﻿const { app, BrowserWindow, globalShortcut, ipcMain, Menu } = require('electron');
-const Path = require('path')
-const url = require('url')
-const electron = require('electron')
-const dialog = electron.dialog
+﻿const { app, BrowserWindow, globalShortcut, ipcMain, Menu, dialog } = require('electron');
+const path = require('path');
+const url = require('url');
 const fs = require('fs');
 const Helper = require('./src/common/Helper');
 const Analytics = require('./src/common/Analytics');
-const IpcEvents = require('./src/common/Constants').IpcEvents
+const IpcEvents = require('./src/common/Constants').IpcEvents;
 const { autoUpdater } = require('electron-updater');
 const config = require('./config.dev.json');
 
-const workspace = Path.join(app.getPath('userData'), 'workspace');
+const workspace = path.join(app.getPath('userData'), 'workspace');
 
 /*DO NOT REMOVE BELOW */
 const IpcHandlers = require('./src/main/IpcHandlers')
 const IpcHandlersDatabase = require('./src/main/IpcHandlersDatabase')
 const Database = require('./src/main/Database')
 /*DO NOT REMOVE ABOVE */
+
 const menuDevTemplate = [
   {
     label: 'BackgroundWindow',
@@ -36,25 +35,30 @@ let closing = false; // for dev: so we actually close the background window
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-var mainWindow;
+let mainWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1000, height: 700, show: true,
+    width: 1000,
+    height: 700,
+    show: true,
     webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      nodeIntegrationInWorker: true,
       contextIsolation: false,
       enableRemoteModule: true,
       // allowRunningInsecureContent: true,
-    },
-  })
+    }
+  });
+
   // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: Path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+  mainWindow.loadURL(
+      url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+      })
+  );
 
   if (Helper.env.isDev() || Helper.env.isUat()) {
     if (Helper.env.isDev()) {
@@ -74,7 +78,7 @@ function createWindow() {
     // when you should delete the corresponding element.
     Analytics.events.APP_CLOSING();
     closing = true;
-    mainWindow = null
+    mainWindow = null;
     if (backgroundWindow) {
       backgroundWindow.close();
       backgroundWindow = null;
@@ -84,30 +88,33 @@ function createWindow() {
   mainWindow.on('app-command', (e, cmd) => {
     // Navigate the window back when the user hits their mouse back button
     if (cmd === 'browser-backward' && mainWindow.webContents.canGoBack()) {
-      mainWindow.webContents.goBack()
+      mainWindow.webContents.goBack();
     }
   });
 
   global.mainWindow = mainWindow;
 }
 
-var backgroundWindow;
+let backgroundWindow;
 function createBackgroundWindow() {
   // backgroundWindow = new BrowserWindow({width: 1000, height: 700, show: true}); backgroundWindow.maximize();
   backgroundWindow = new BrowserWindow({ show: false,
     webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      nodeIntegrationInWorker: true,
       contextIsolation: false,
       enableRemoteModule: true,
       // allowRunningInsecureContent: true,
-    },
+    }
   });
-  backgroundWindow.loadURL(url.format({
-    pathname: Path.join(__dirname, 'background.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+  backgroundWindow.loadURL(
+      url.format({
+        pathname: path.join(__dirname, 'background.html'),
+        protocol: 'file:',
+        slashes: true
+      })
+  );
+
 
   // backgroundWindow.webContents.openDevTools()
 
@@ -140,7 +147,7 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
@@ -164,13 +171,12 @@ app.on('activate', function () {
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
 if (Helper.env.isDev()) {
   appSettings = config.appSettings;
-}
-else {
+} else {
   appSettings = {
-    ThumbnailFolder: Path.join(workspace, '/thumbnails'),
-    PictureFolder: Path.join(workspace, '/pictures'),
-    DatabasePath: Path.join(workspace, 'graffiti-db.grf'),
-    ErrorLogPath: Path.join(workspace, 'errorlog.grf')
+    ThumbnailFolder: path.join(workspace, '/thumbnails'),
+    PictureFolder: path.join(workspace, '/pictures'),
+    DatabasePath: path.join(workspace, 'graffiti-db.grf'),
+    ErrorLogPath: path.join(workspace, 'errorlog.grf')
   };
 }
 
@@ -292,7 +298,7 @@ if (Helper.env.isProd()) {
 // console.log(crashReporter.getLastCrashReport())
 
 // setTimeout(() => {
-//   console.error('throwing error')
+//   console.error('throwing error');
 //   // throw new Error('Backtrace CrashReporter test');
 //   // process.crash();
-// }, 10000)
+// }, 10000);

@@ -1,44 +1,49 @@
 const Datastore = require('nedb');
 const Helper = require('../common/Helper');
 
-var db;
-exports.init = path => {
-    console.warn('Logger disabled')
+let db;
+
+exports.init = function init(path) {
+    console.warn('Logger disabled');
     // db = new Datastore({ filename: path, autoload: true, timestampData: false });
 };
 
-insert = line => {
+function insert(line) {
     // if (db)
     //     db.insert(line);
 }
 
-exports.error = (err, description) => {
+exports.error = function error(err, description) {
     const line = {
         type: 'error',
         appVersion: Helper.app.version(),
         uploaded: false,
         date: new Date(),
         error: JSON.stringify(err, ["message", "type"]),
-        description: description
+        description: description,
     };
     insert(line);
-}
+};
 
-exports.message = message => {
+exports.message = function message(message) {
     const line = {
         type: 'message',
         appVersion: Helper.app.version(),
         uploaded: false,
         date: new Date(),
-        message: message
-    }
+        message: message,
+    };
     insert(line);
-}
+};
 
-exports.getAll = () => {
+exports.getAll = function getAll() {
     return new Promise((resolve, reject) => {
-        db.find({}, (err, docs) => {
-            resolve(docs);
+        db.find({}, function (err, docs) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(docs);
+            }
         });
-    })
-}
+    });
+};

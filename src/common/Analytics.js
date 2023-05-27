@@ -1,20 +1,16 @@
 // https://kilianvalkhof.com/2018/apps/using-google-analytics-to-gather-usage-statistics-in-electron/
-
-const Helper = require('../common/Helper')
+const Helper = require('../common/Helper');
 const ua = require('universal-analytics');
 const uuid = require('uuid/v4');
-// const { JSONStorage } = require('node-localstorage');
 const _ = require('lodash');
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 // const UAT_TRACKING_CODE = 'UA-117105247-5';
 // const PROD_TRACKING_CODE = 'UA-117105247-6';
-
 let user;
 
-exports.init = init;
-function init(userDataPath, os, screen) {
+exports.init = function init(userDataPath, os, screen) {
     if (!fs.existsSync(userDataPath)) {
         fs.mkdirSync(userDataPath);
     }
@@ -28,40 +24,41 @@ function init(userDataPath, os, screen) {
 
     if (!userId) {
         userId = uuid();
-        fs.writeFileSync(userIdPath, userId)
+        fs.writeFileSync(userIdPath, userId);
     }
 
-    // if (!Helper.env.isDev()) {
-    if (Helper.env.isProd())
-        user = ua(PROD_TRACKING_CODE, userId);
-    else if (Helper.env.isUat())// || Helper.env.isDev())
-        user = ua(UAT_TRACKING_CODE, userId).debug();
+    if (Helper.env.isProd()) {
+        user = ua('UA-XXXXXXXXX', userId);
+    } else if (Helper.env.isUat()) {
+        user = ua('UA-XXXXXXXXX', userId).debug();
+    }
+
     if (user) {
-        user.set('applicationVersion', Helper.app.version())
+        user.set('applicationVersion', Helper.app.version());
         if (os) user.set('cd1', os);
-        if (screen) user.set('cd2', `${screen.width}x${screen.height}`)
+        if (screen) user.set('cd2', `${screen.width}x${screen.height}`);
     }
-}
+};
 
-exports.getUserId = getUserId;
-function getUserId(userDataPath) {
+exports.getUserId = function getUserId(userDataPath) {
     let userId = undefined;
     const userIdPath = path.join(userDataPath, 'userId');
     if (fs.existsSync(userIdPath)) {
         userId = fs.readFileSync(userIdPath, "utf8");
     }
-    return userId
-}
+    return userId;
+};
 
-exports.screenview = screenview;
-function screenview(screenName) {
-    if (user)
+exports.screenview = function screenview(screenName) {
+    if (user) {
         user.screenview(screenName, Helper.app.name(), Helper.app.version()).send();
-}
+    }
+};
 
 function event(params) {
-    if (user)
+    if (user) {
         user.event(params).send();
+    }
 }
 
 exports.events = {
@@ -75,7 +72,7 @@ exports.events = {
     
     STARTUP_LOAD_VIDEO: (eventValue) => event({ eventCategory: 'startup', eventAction: 'load_video', eventValue }),
     STARTUP_LOAD_PEOPLE: (eventValue) => event({ eventCategory: 'startup', eventAction: 'load_people', eventValue }),
-    
+
     VIDEO_SEARCH: (eventLabel) => event({ eventCategory: 'video', eventAction: 'search', eventLabel }),
     VIDEO_ATTACH_PERSON: () => event({ eventCategory: 'video', eventAction: 'attach_person' }),
     VIDEO_TAG: (eventValue) => event({ eventCategory: 'video', eventAction: 'tag', eventValue }),
@@ -85,7 +82,7 @@ exports.events = {
     VIDEO_MAKE_SCREENSHOTS: () => event({ eventCategory: 'video', eventAction: 'make_screenshots' }),
     VIDEO_REMOVE: () => event({ eventCategory: 'video', eventAction: 'remove' }),
 
-    PEOPLE_SEARCH: (eventLabel) => { _.debounce(() => {event({ eventCategory: 'people', eventAction: 'search', eventLabel })}, 5000) },
+    PEOPLE_SEARCH: _.debounce((eventLabel) => event({ eventCategory: 'people', eventAction: 'search', eventLabel }), 5000),
     PEOPLE_ADD: (eventLabel) => event({ eventCategory: 'people', eventAction: 'add', eventLabel }),
     PEOPLE_EDIT: (eventLabel) => event({ eventCategory: 'people', eventAction: 'edit', eventLabel }),
     PEOPLE_REMOVE: (eventLabel) => event({ eventCategory: 'people', eventAction: 'remove', eventLabel }),
@@ -101,13 +98,13 @@ exports.events = {
     SETTINGS_IMAGES_STARTUP_MAKE_SCREEENSHOTS: (eventLabel) => event({ eventCategory: 'settings', eventAction: 'images_startup_make_screenshots', eventLabel }),
     SETTINGS_IMAGES_SCREENSHOTS_MAKE_ON_DETAILS: (eventLabel) => event({ eventCategory: 'settings', eventAction: 'images_screenshots_on_details', eventLabel }),
     SETTINGS_IMAGES_SCREENSHOTS_PARALLEL: (eventValue) => event({ eventCategory: 'settings', eventAction: 'images_screenshots_parallel', eventValue }),
-    
+
     DUPLICATES_START: () => event({ eventCategory: 'duplicates', eventAction: 'start' }),
     DUPLICATES_FINISHED: (eventValue) => event({ eventCategory: 'duplicates', eventAction: 'finished', eventValue }),
     DUPLICATES_DELETE: (eventValue) => event({ eventCategory: 'duplicates', eventAction: 'delete', eventValue }),
-    
+
     CLEAN_UP_START: () => event({ eventCategory: 'cleanUp', eventAction: 'start' }),
     CLEAN_UP_DELETE: (eventValue) => event({ eventCategory: 'cleanUp', eventAction: 'delete', eventValue }),
     CLEAN_UP_MOVE_TO_BIN: (eventValue) => event({ eventCategory: 'cleanUp', eventAction: 'move_to_bin', eventValue }),
     CLEAN_UP_RESTORE: (eventValue) => event({ eventCategory: 'cleanUp', eventAction: 'restore', eventValue }),
-}
+};
