@@ -8,7 +8,7 @@
 // //     });
 // //   });
 // // });
-const Path = require('path');
+const Path = require('electron').remote.require('path');
 const config = require('../config.test.json');
 
 // const workspace = config.Drive

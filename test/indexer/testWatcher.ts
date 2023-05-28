@@ -1,7 +1,7 @@
 import Watcher from '../../src/background/Watcher'
 import * as fs from 'fs'
 import * as assert from 'assert'
-const exec = require('child_process').exec;
+const exec = require('electron').remote.require('child_process').exec;
 const config = require('../../config.test.json');
 
 describe('Watcher_move', function() {

@@ -93,7 +93,7 @@ export default class ScreenshotEngine {
                     }
                     else {
                         // try alternative method
-                        const exec = require('child_process').exec;
+                        const exec = require('electron').remote.require('child_process').exec;
                         const command = ffmpegPath + ' -ss ' + timestamp + ' -i "' + video.path + '" -vf scale=' + `${ratio.width}:${ratio.height}` + ' "' + fullpath + '" -r 1 -vframes 1 -an -vcodec mjpeg';
                         exec(command, (err, stdout) => {
                             if (fs.existsSync(fullpath))

@@ -45,12 +45,12 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: true,
       enableRemoteModule: true,
       // allowRunningInsecureContent: true,
     }
   });
-
+  ipcMain.handle('ping', () => 'pong')
   // and load the index.html of the app.
   mainWindow.loadURL(
       url.format({
@@ -68,7 +68,8 @@ function createWindow() {
 
     const mainMenu = Menu.buildFromTemplate(menuDevTemplate);
     Menu.setApplicationMenu(mainMenu);
-    // mainWindow.setMenu(null)
+    // win.removeMenu()
+    //// mainWindow.setMenu(null)
   }
 
   // Emitted when the window is closed.
@@ -76,7 +77,7 @@ function createWindow() {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    Analytics.events.APP_CLOSING();
+    // Analytics.events.APP_CLOSING();
     closing = true;
     mainWindow = null;
     if (backgroundWindow) {
@@ -102,7 +103,7 @@ function createBackgroundWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: true,
       enableRemoteModule: true,
       // allowRunningInsecureContent: true,
     }
@@ -228,7 +229,7 @@ function registerShortcuts() {
 }
 
 global.userDataPath = app.getPath('userData');
-Analytics.init(app.getPath('userData'), `${process.platform} ${require('os').release()}`);
+// Analytics.init(app.getPath('userData'), `${process.platform} ${require('os').release()}`);
 
 function sendStatusToWindow(text) {
   // win.webContents.send('message', text);

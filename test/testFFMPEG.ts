@@ -2,8 +2,8 @@ import ScreenshotEngine from '../src/background/ScreenshotEngine'
 const Util = require('../src/common/Util')
 const ffmpeg = require("fluent-ffmpeg");
 const moment = require('moment');
-const fs = require('fs');
-const path = require('path');
+const fs = require('electron').remote.require('fs');
+const path = require('electron').remote.require('path');
 require("moment-duration-format");
 const config = require('../config.test.json');
 

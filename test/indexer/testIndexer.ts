@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('electron').remote.require('fs')
 const assert = require('assert');
 const Database = require('../../src/main/Database')
 const Util = require('../../src/common/Util')

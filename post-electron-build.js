@@ -14,9 +14,9 @@ PostElectronBuild.prototype.apply = function(compiler) {
     console.log(stdout)
   };
 	
-  const exec = require('child_process').exec;
-  const fs = require('fs');
-  const path = require('path');
+  const exec = require('electron').remote.require('child_process').exec;
+  const fs = require('electron').remote.require('fs');
+  const path = require('electron').remote.require('path');
   
   fs.readlink(path.resolve("dist\\app\\node_modules"), (err, linkString) => {
     if (err) // link not found

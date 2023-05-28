@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import * as async from 'async'
 import Video from '../types/Video';
 import Person from '../types/Person';
-const os = require('os');
+const os = require('electron').remote.require('os');
 const Util = require('../common/Util');
 const Logger = require('../main/Logger');
 import ScreenshotEngine from './ScreenshotEngine';
